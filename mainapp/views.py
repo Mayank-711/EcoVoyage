@@ -4,11 +4,10 @@ from django.views.decorators.csrf import csrf_exempt
 import json,static
 from django.contrib import messages
 
-def mappage(request):
-    return render(request, 'mainapp/mappage.html')
-
 @csrf_exempt  
-def store_distance_data(request):
+def mappage(request):
+    user = request.user 
+    username = user.username
     if request.method == 'POST':
         data = json.loads(request.body)
         source_add = data.get('source')
@@ -46,8 +45,11 @@ def store_distance_data(request):
             if mode_of_transport == a:
                 carbonfootrpint = list_of_transport[a] * float(distance)
         print (source_add, source_lat, source_lon, dest_add, destination_lon, destination_lat, distance,
-            date, time_taken, is_electric, mode_of_transport,carbonfootrpint, sep="\n")
-        context = {"success":"You have Travelled {distance} and generated {carbonfootprint}gms of carbomn footprint"}
-        return render(request,'mainapp/mappage.html',context=context)
+            date, time_taken, is_electric, mode_of_transport,carbonfootrpint,username, sep="\n")
+    context = {"success":"You have Travelled {distance} and generated {carbonfootprint}gms of carbomn footprint"}
+    return render(request,'mainapp/mappage.html',context=context)
+
+@csrf_exempt  
+def store_distance_data(request):
         # You can save the data to the database here
     return JsonResponse({'message': 'Invalid request method.'}, status=400)
