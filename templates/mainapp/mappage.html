@@ -39,19 +39,21 @@
             </select>
             <div class="radio-group">
                 <label for="is_electric">Is the transport electric?</label>
-                <input type="radio" id="is_electric_yes" name="is_electric" value="yes" required>
+                <input type="radio" id="is_electric_yes" name="is_electric" value=True required>
                 <label for="is_electric_yes">Yes</label>
-                <input type="radio" id="is_electric_no" name="is_electric" value="no" required>
+                <input type="radio" id="is_electric_no" name="is_electric" value=False required>
                 <label for="is_electric_no">No</label>
             </div>
             <button type="submit" id="store-button">Submit</button>
         </form>
-        {% if messages %}
-        {% for message in messages %}
-            <p>{{ message }}</p>
-        {% endfor %}
-    {% endif %}
     </div>
+    {% if messages %}
+        <ul id="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
     <section id="eco-tips" class="eco-tips">
         <h2>Eco-Friendly Travel Tips</h2>
         <div class="tips-container">

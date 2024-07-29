@@ -36,7 +36,6 @@ authappurl = [
 
 mainappurl = [
     path('mappage/', mviews.mappage, name='mappage'),
-    path('store-distance-data/', mviews.store_distance_data, name='store_distance_data'),
 ]
 
 urlpatterns = urlpatterns + authappurl + mainappurl

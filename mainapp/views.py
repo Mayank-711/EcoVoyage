@@ -1,10 +1,12 @@
 from django.shortcuts import redirect, render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-import json,static
+import json
 from django.contrib import messages
+from .models import TravelLog
+from django.utils.dateparse import parse_duration
 
-@csrf_exempt  
+@csrf_exempt
 def mappage(request):
     user = request.user 
     username = user.username
@@ -21,7 +23,7 @@ def mappage(request):
         time_taken = data.get('time_taken')
         is_electric = data.get('is_electric')
         mode_of_transport = data.get('mode_of_transport')
-        if is_electric =="yes":
+        if is_electric:
             mode_of_transport = "e" + mode_of_transport
         list_of_transport = {
             "bus": 20.55,
@@ -40,16 +42,31 @@ def mappage(request):
             "scooter": 55,
             "escooter": 22
         }
-        carbonfootrpint=0.00
+
+        carbonfootprint = 0.00
         for a in list_of_transport:
             if mode_of_transport == a:
-                carbonfootrpint = list_of_transport[a] * float(distance)
-        print (source_add, source_lat, source_lon, dest_add, destination_lon, destination_lat, distance,
-            date, time_taken, is_electric, mode_of_transport,carbonfootrpint,username, sep="\n")
-    context = {"success":"You have Travelled {distance} and generated {carbonfootprint}gms of carbomn footprint"}
-    return render(request,'mainapp/mappage.html',context=context)
+                carbonfootprint = list_of_transport[a] * float(distance)
+        travel_log = TravelLog.objects.create(
+            user=user,
+            source_address=source_add,
+            destination_address=dest_add,
+            source_latitude=source_lat,
+            source_longitude=source_lon,
+            destination_latitude=destination_lat,
+            destination_longitude=destination_lon,
+            distance=distance,
+            date=date,
+            time_taken=time_taken,
+            is_electric=is_electric,
+            mode_of_transport=mode_of_transport,
+            carbon_footprint=carbonfootprint
+        )
+        
+        print(source_add, source_lat, source_lon, dest_add, destination_lon, destination_lat, distance,
+            date, time_taken, is_electric, mode_of_transport, carbonfootprint, username, sep="\n")
+        
+        messages.success(request, f"You have traveled {distance} km and generated {carbonfootprint} gms of carbon footprint.")
+        return redirect('mappage') 
 
-@csrf_exempt  
-def store_distance_data(request):
-        # You can save the data to the database here
-    return JsonResponse({'message': 'Invalid request method.'}, status=400)
+    return render(request, 'mainapp/mappage.html')
