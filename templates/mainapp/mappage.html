@@ -1,0 +1,110 @@
+{% extends 'mainapp/base.html' %}
+{% load static %}
+{% block title %}HomePage{% endblock %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/homepage.css' %}">       
+{% endblock %}
+
+{% block content %}
+<div id="row">
+    <div class="form-container">
+        <h2>Plan Your Trip</h2>
+        <form id="trip-form" action="{% url 'mappage' %}" method="post">
+            {% csrf_token %}
+            <label for="source">Source</label>
+            <input type="text" id="source-input" name="source-add" placeholder="Enter source location" required />
+            <ul id="source-results" class="autocomplete-results"></ul>
+            <input type="hidden" id="source-lat" name="source_lat">
+            <input type="hidden" id="source-lng" name="source_lng">
+
+            <label for="destination">Destination</label>
+            <input type="text" id="destination-input" name="destination-add" placeholder="Enter destination location" required />
+            <ul id="destination-results" class="autocomplete-results"></ul>
+            <input type="hidden" id="dest-lat" name="dest_lat">
+            <input type="hidden" id="dest-lng" name="dest_lng">
+
+            <!-- Hidden fields for date and time -->
+            <input type="hidden" id="search-date" name="search_date">
+            <input type="hidden" id="search-time" name="search_time">
+
+            <button type="submit" id="calculate-button">Calculate Carbon Footprint</button>
+        </form>
+    </div>
+    <div class="chats">
+        <div class="chat-entries">
+            {% if chats %}
+                {% for chat in chats %}
+                <div class="chat-entry">
+                    <div class="chat-row">
+                        <div class="chat-column">
+                            <p><strong>Source:</strong> {{ chat.source_address }}</p>
+                            <p><strong>Destination:</strong> {{ chat.destination_address }}</p>
+                            <p><strong>Distance:</strong> {{ chat.distance }} km</p>
+                            <p><strong>Duration:</strong> {{ chat.duration }} mins</p>
+                            <p><strong>Date:</strong> {{ chat.search_date }}</p>
+                            <p><strong>Time:</strong> {{ chat.search_time }}</p>
+                        </div>
+                        <div class="chat-column">
+                            <div class="carbon-footprint">
+                                <p><strong>Carbon Footprint:</strong></p>
+                                {% for mode, footprint in chat.carbon_footprint.items %}
+                                    <p>{{ mode }}: {{ footprint }} g</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p>No records found.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<section id="eco-tips" class="eco-tips">
+    <h2>Eco-Friendly Travel Tips</h2>
+    <div class="tips-container">
+        <div class="tip">
+            <h3>Save Green</h3>
+            <img src="{% static 'images/save-green.jpeg' %}" alt="Save Green">
+            <p>Make conscious choices to reduce your environmental impact. Opt for energy-efficient appliances and sustainable products to help preserve our planet.</p>
+            <p>Tip: Use reusable bags, bottles, and containers to minimize waste and avoid single-use plastics.</p>
+        </div>
+        <div class="tip">
+            <h3>Use Electric Vehicles (EVs)</h3>
+            <img src="{% static 'images/electric-vehicle.jpeg' %}" alt="Electric Vehicles">
+            <p>Electric vehicles (EVs) produce zero tailpipe emissions and are a great alternative to traditional gasoline-powered cars. Consider switching to an EV to reduce your carbon footprint.</p>
+            <p>Tip: Charge your EV with renewable energy sources, such as solar or wind power, to maximize its environmental benefits.</p>
+        </div>
+        <div class="tip">
+            <h3>Opt for Public Transport</h3>
+            <img src="{% static 'images/public-transport.jpeg' %}" alt="Public Transport">
+            <p>Using public transport is an effective way to reduce individual carbon emissions. Buses, trains, and subways help decrease traffic congestion and pollution.</p>
+            <p>Tip: Plan your routes in advance and use apps to find the most efficient public transport options.</p>
+        </div>
+        <div class="tip">
+            <h3>Practice Carpooling</h3>
+            <img src="{% static 'images/car-pooling.jpeg' %}" alt="Carpooling">
+            <p>Carpooling with others not only reduces the number of vehicles on the road but also lowers overall emissions. Share rides with friends or colleagues to help lessen your carbon footprint.</p>
+            <p>Tip: Use carpooling apps or join local carpool groups to find others with similar routes.</p>
+        </div>
+        <div class="tip">
+            <h3>Choose Eco-Friendly Accommodations</h3>
+            <img src="{% static 'images/eco-accomodate.jpeg' %}" alt="Eco-Friendly Accommodations">
+            <p>When booking accommodations, look for hotels and lodgings that implement eco-friendly practices, such as energy-saving measures, waste reduction programs, and eco-friendly amenities.</p>
+            <p>Tip: Look for certifications like Green Key or EarthCheck when booking your stay.</p>
+        </div>
+        <div class="tip">
+            <h3>Travel Light</h3>
+            <img src="{% static 'images/travel-light.jpeg' %}" alt="Travel Light">
+            <p>Packing light reduces the weight of your luggage, which in turn can lower the fuel consumption of your vehicle or aircraft. Aim to bring only what you need for your trip.</p>
+            <p>Tip: Choose versatile clothing items and use packing cubes to stay organized and minimize excess baggage.</p>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'js/homepage.js' %}"></script>
+{% endblock %}

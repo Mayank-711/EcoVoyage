@@ -1,0 +1,78 @@
+.container {
+    width: 80%;
+    max-width: 1300px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+.profile-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+.profile-info, .friend-requests, .friends-list {
+    flex: 1;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.profile-info {
+    display: flex;
+    flex-direction: column; /* Change to column to align the button under the avatar */
+    align-items: center; /* Center the avatar and button */
+    gap: 20px;
+}
+.profile-info img.avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+p {
+    font-size: 18px;
+    line-height: 1.6;
+    margin: 10px 0;
+}
+strong {
+    color: #555;
+}
+.navbar a {
+    outline: none;
+}
+.navbar a:focus {
+    outline: none;
+    box-shadow: none;
+    background-color: #f0f0f0;
+}
+.friend-requests ul, .friends-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+.friend-requests li, .friends-list li {
+    margin: 10px 0;
+}
+.friend-requests button {
+    padding: 5px 10px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.friend-requests button:hover {
+    background-color: #0056b3;
+}
+.profile-info a, .profile-info .avatar-selection-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #00563B;
+    color: #fff;
+    border-radius: 20px;
+    text-decoration: none;
+    margin-top: 10px;
+    text-align: center;
+    cursor: pointer;
+}

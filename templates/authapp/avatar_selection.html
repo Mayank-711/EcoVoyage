@@ -1,0 +1,82 @@
+{% extends 'mainapp/base.html' %}
+{% load static %}
+{% block title %}Select Your Avatar{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/avtarselection.css' %}"
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Select Your Avatar</h1>
+    <div class="avatar-selection-container">
+        <div class="avatar-options">
+            <img id="avatar1" src="{% static 'avatar/kid.jpg' %}" alt="Avatar 1" data-avatar-id="1" onclick="selectAvatar(1)" {% if profile.avatar == '1' %}class="selected"{% endif %}>
+            <img id="avatar2" src="{% static 'avatar/men.jpg' %}" alt="Avatar 2" data-avatar-id="2" onclick="selectAvatar(2)" {% if profile.avatar == '2' %}class="selected"{% endif %}>
+            <img id="avatar3" src="{% static 'avatar/girl1.jpg' %}" alt="Avatar 3" data-avatar-id="3" onclick="selectAvatar(3)" {% if profile.avatar == '3' %}class="selected"{% endif %}>
+            <img id="avatar4" src="{% static 'avatar/girl2.jpg' %}" alt="Avatar 4" data-avatar-id="4" onclick="selectAvatar(4)" {% if profile.avatar == '4' %}class="selected"{% endif %}>
+            <img id="avatar5" src="{% static 'avatar/girl3.jpg' %}" alt="Avatar 5" data-avatar-id="5" onclick="selectAvatar(5)" {% if profile.avatar == '5' %}class="selected"{% endif %}>
+            <img id="avatar6" src="{% static 'avatar/girl4.jpg' %}" alt="Avatar 6" data-avatar-id="6" onclick="selectAvatar(6)" {% if profile.avatar == '6' %}class="selected"{% endif %}>
+            <img id="avatar7" src="{% static 'avatar/boy1.jpg' %}" alt="Avatar 7" data-avatar-id="7" onclick="selectAvatar(7)" {% if profile.avatar == '7' %}class="selected"{% endif %}>
+            <img id="avatar8" src="{% static 'avatar/boy2.jpg' %}" alt="Avatar 8" data-avatar-id="8" onclick="selectAvatar(8)" {% if profile.avatar == '8' %}class="selected"{% endif %}>
+            <img id="avatar9" src="{% static 'avatar/ninja.jpg' %}" alt="Avatar 9" data-avatar-id="9" onclick="selectAvatar(9)" {% if profile.avatar == '9' %}class="selected"{% endif %}>
+
+        </div>
+        <input type="hidden" id="selected-avatar" value="{{ profile.avatar }}">
+        <div class="button-container">
+            <button onclick="saveAvatar()">Save Avatar</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function selectAvatar(avatarId) {
+        // Deselect all avatars
+        const avatars = document.querySelectorAll('.avatar-options img');
+        avatars.forEach(avatar => {
+            avatar.classList.remove('selected');
+        });
+
+        // Select the clicked avatar
+        const selectedAvatarElement = document.querySelector(`img[data-avatar-id="${avatarId}"]`);
+        if (selectedAvatarElement) {
+            selectedAvatarElement.classList.add('selected');
+            document.getElementById('selected-avatar').value = avatarId;
+        }
+    }
+
+    function saveAvatar() {
+        const avatarId = document.getElementById('selected-avatar').value;
+        fetch('{% url "update_avatar" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: `avatar=${avatarId}`
+        }).then(response => response.json())
+          .then(data => {
+              if (data.success) {
+                  window.location.href = "{% url 'view_profile' user.id %}"; // Redirect to the profile page
+              } else {
+                  alert('Failed to update avatar: ' + data.message);
+              }
+          });
+    }
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+</script>
+{% endblock %}

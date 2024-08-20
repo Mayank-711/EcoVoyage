@@ -1,0 +1,62 @@
+{% extends "authapp/base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+
+<h1>Welcome</h1>
+<p>Login to your account to continue</p>
+<form method="post">
+    {% csrf_token %}
+    {% if messages %}
+        <div id="message-container" class="alert alert-warning" role="alert" style="color:crimson;">
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %} 
+        </div>
+    {% endif %}
+    <input type="text" placeholder="Username" id="username" name="username" required>
+    <input type="password" id="password" name="password" placeholder="Password" required>
+    <div class="links">
+        <label>
+            <input type="checkbox" id="show-password"> Show Password
+        </label>
+    </div>
+    <div class="links">
+        <a href="{% url 'forgotpassword' %}">Forgot your password?</a>
+    </div>
+    <button type="submit">LOG IN</button>
+</form>
+
+{% endblock %}
+
+{% block bottom %}
+<p>Don't have an account? <a href="{% url 'signup' %}">Sign Up</a></p>
+<p>Click here to go <a href="{% url 'landingpage' %}">Home</a></p>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.getElementById('show-password').addEventListener('change', function() {
+        const passwordField = document.getElementById('password');
+        if (this.checked) {
+            passwordField.type = 'text';
+        } else {
+            passwordField.type = 'password';
+        }
+    });
+
+    // Function to hide messages after a delay
+    function hideMessages() {
+        const messageContainer = document.getElementById('message-container');
+        if (messageContainer) {
+            setTimeout(() => {
+                messageContainer.style.display = 'none';
+            }, 3000); 
+        }
+    }
+
+    // Call the hideMessages function when the document is loaded
+    document.addEventListener('DOMContentLoaded', hideMessages);
+</script>
+{% endblock %}

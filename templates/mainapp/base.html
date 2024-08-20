@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}EcoVoyage{% endblock %}</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.devbridge-autocomplete/1.4.11/jquery.autocomplete.min.js"></script>
+    <link href="{% static 'css/landingpage.css'%}" rel="stylesheet">
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <img src="{% static 'images/logo.png' %}" alt="EcoVoyage Logo">
+            <h1>EcoVoyage</h1>
+        </div>
+        <div class="nav-links">
+            <ul>
+                <li><a href="{% url 'mappage' %}"><h3>Home</h3></a></li>
+                <li><a href="{% url 'logtrip' %}"><h3>Log Trip</h3></a></li>
+                <li><a href="{% url 'leaderboards' %}"><h3>Leaderboards</h3></a></li>
+                <li><a href="{% url 'redeem' %}"><h3>Redeem</h3></a></li>
+                <li><a href="{% url 'view_profile' user_id=user.id %}"><h3>Profile</h3></a></li>
+                <li><a href="{% url 'logout' %}"><h3>Logout</h3></a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <footer style="background-color: #00563B; color: #E5F6DF; padding: 20px; text-align: center;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <p style="margin: 0;">&copy; 2024 EcoVoyage. All rights reserved.</p>
+        </div>
+    </footer>
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

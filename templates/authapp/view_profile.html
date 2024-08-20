@@ -1,0 +1,81 @@
+{% extends 'mainapp/base.html' %}
+{% load static %}
+{% block title %}{{ user.username }}'s Profile{% endblock %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/viewprofile.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="profile-container">
+        <!-- Profile Information Section -->
+        <div class="profile-info">
+            <!-- Handle avatar with a fallback for missing or invalid values -->
+            {% if profile.avatar == '1' %}
+                <img src="{% static 'avatar/kid.jpg' %}" alt="Avatar 1" class="avatar">
+            {% elif profile.avatar == '2' %}
+                <img src="{% static 'avatar/men.jpg' %}" alt="Avatar 2" class="avatar">
+            {% elif profile.avatar == '3' %}
+                <img src="{% static 'avatar/girl1.jpg' %}" alt="Avatar 3" class="avatar">
+            {% elif profile.avatar == '4' %}
+                <img src="{% static 'avatar/girl2.jpg' %}" alt="Avatar 4" class="avatar">
+            {% elif profile.avatar == '5' %}
+                <img src="{% static 'avatar/girl3.jpg' %}" alt="Avatar 5" class="avatar">
+            {% elif profile.avatar == '6'%}
+                <img src="{% static 'avatar/girl4.jpg' %}" alt="Avatar 6" class="avatar">
+            {% elif profile.avatar == '7' %}
+                <img src="{% static 'avatar/boy1.jpg' %}" alt="Avatar 7" class="avatar">
+            {% elif profile.avatar == '8' %}
+                <img src="{% static 'avatar/boy2.jpg' %}" alt="Avatar 8" class="avatar">
+            {% elif profile.avatar == '9' %}
+                <img src="{% static 'avatar/ninja.jpg' %}" alt="Avatar 9" class="avatar">
+            {% else %}
+                <img src="{% static 'avatar/default.jpg' %}" alt="Default Avatar" class="avatar">
+            {% endif %}
+            <a href="{% url 'avatar_selection' %}" class="avatar-selection-button">Change Avatar</a>
+            <div>
+                <h1>{{ user.username }}'s Profile</h1>
+                <p><strong>Name:</strong> {{ user.first_name }}</p>
+                <p><strong>Email:</strong> {{ user.email }}</p>
+                <p><strong>Contact:</strong> {{ profile.contact }}</p>
+                <p><strong>Location(Pincode):</strong> {{ profile.location }}</p>
+                <a href="{% url 'edit_profile' user.id %}">Edit Profile</a>
+            </div>
+        </div>
+
+        <!-- Friend Requests Section -->
+        <div class="friend-requests">
+            <h2>Friend Requests</h2>
+            <ul>
+                {% if friend_requests %}
+                    {% for request in friend_requests %}
+                        <li>{{ request.sender.username }}
+                            <form method="post" action="{% url 'accept_friend_request' request.id %}">
+                                {% csrf_token %}
+                                <button type="submit">Accept</button>
+                            </form>
+                        </li>
+                    {% endfor %}
+                {% else %}
+                    <li>No friend requests.</li>
+                {% endif %}
+            </ul>
+        </div>
+
+        <!-- Friends List Section -->
+        <div class="friends-list">
+            <h2>Friends</h2>
+            <ul>
+                {% if friends %}
+                    {% for friend in friends %}
+                        <li>{{ friend.username }}</li>
+                    {% endfor %}
+                {% else %}
+                    <li>No friends added yet.</li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,148 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{%static 'css/landingpage.css'%}">
+    <script src="{%static 'js/landingpage.js'%}"></script>
+
+    <title>EcoVoyage</title>
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <img src="{% static 'images/logo.png' %}" alt="EcoVoyage Logo">
+            <h1>EcoVoyage</h1>
+        </div>
+        <div class="nav-links">
+            <ul>
+                <li><a href="#about"><h3>About Us</h3></a></li>
+                <li><a href="#eco-importance"><h3>Eco-Friendly Importance</h3></a></li>
+                <li><a href="#app"><h3>About Our App</h3></a></li>
+                <li><a href="{% url 'login' %}"><h3>Login</h3></a></li>
+            </ul>
+        </div>
+    </header>
+    <section id="sliding" class="main-content" style="padding-bottom: 50px;">
+        <div id="slider">
+            <div class="slide visible" style="background-image: url('{% static 'images/quote1.jpg' %}');">
+                <p style="font-size:50px;">Welcome to EcoVoyage</p>
+                <p style="font-size: 25px;">Plan your trips with nature in mind.</p>
+                <br><br>
+                <p style="font-size: 20px;">Nature is not a place to visit. It is home.<br>- Gary Snyder</p>
+            </div>
+            <div class="slide" style="background-image: url('{% static 'images/quote2.jpg' %}');">
+                <p style="font-size:50px;">Welcome to EcoVoyage</p>
+                <p style="font-size: 25px;">Track and reduce your travel impact with ease.</p>
+                <br><br>
+                <p style="font-size: 20px;">The greatest threat to our planet is the belief that someone else will save it.<br>- Robert Swan</p>
+            </div>
+            <div class="slide" style="background-image: url('{% static 'images/quote3.jpg' %}');">
+                <p style="font-size:50px;">Welcome to EcoVoyage</p>
+                <p style="font-size: 25px;">Your journey towards sustainable travel starts here.</p>
+                <br><br>
+                <p style="font-size: 20px;">Take only memories, leave only footprints.<br>- Chief Seattle</p>
+            </div>
+            <button class="arrow left" onclick="prevSlide()">&#10094;</button>
+            <button class="arrow right" onclick="nextSlide()">&#10095;</button>
+            <div class="dots">
+                <div class="dot active" onclick="showSlide(0)"></div>
+                <div class="dot" onclick="showSlide(1)"></div>
+                <div class="dot" onclick="showSlide(2)"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="eco-importance" class="section">
+        <h2>Eco-Friendly Importance</h2>
+        <div class="section-container">
+            <div class="item">
+                <h3>Reducing Carbon Footprint</h3>
+                <p>Eco-friendly travel helps reduce your carbon footprint, conserving the environment for future generations.</p>
+            </div>
+            <div class="item">
+                <h3>Preserving Natural Resources</h3>
+                <p>By traveling sustainably, you contribute to the preservation of natural resources and promote biodiversity.</p>
+            </div>
+            <div class="item">
+                <h3>Promoting Local Economies</h3>
+                <p>Eco-tourism supports local economies and helps communities thrive without exploiting their natural surroundings.</p>
+            </div>
+            <div class="item">
+                <h3>Enhancing Travel Experience</h3>
+                <p>Sustainable travel practices can lead to more authentic and meaningful travel experiences.</p>
+            </div>
+        </div>
+    </section>
+    <hr style="height: 4px;">
+    <section id="about" class="section">
+        <h2>About Us</h2>
+        <div class="section-container">
+            <div class="item">
+                <h3>Our Mission</h3>
+                <p>EcoVoyage aims to make sustainable travel accessible and enjoyable for everyone. We believe in the power of informed choices and strive to provide the tools necessary for eco-friendly journeys.</p>
+            </div>
+            <div class="item">
+                <h3>Our Vision</h3>
+                <p>We envision a world where travel and sustainability go hand in hand. By promoting eco-friendly travel practices, we hope to contribute to a healthier planet and a more conscientious travel culture.</p>
+            </div>
+            <div class="item">
+                <h3>Our Values</h3>
+                <p>We value sustainability, innovation, and community. These values guide us in developing tools and resources that help travelers make eco-friendly choices and foster a global community committed to preserving our planet.</p>
+            </div>
+        </div>
+    </section>
+    <hr style="height: 4px;">
+    <section id="app" class="section">
+        <h2>About Our Website</h2>
+        <div class="section-container">
+            <div class="item">
+                <h3>User Registration</h3>
+                <p>Create an account to start logging your trips and tracking your carbon footprint.</p>
+            </div>
+            <div class="item">
+                <h3>Trip Logging</h3>
+                <p>Log your trips easily and monitor your travel habits and environmental impact.</p>
+            </div>
+            <div class="item">
+                <h3>Carbon Footprint Calculator</h3>
+                <p>Use our calculator to measure your travel's carbon emissions and get tips to reduce it.</p>
+            </div>
+            <div class="item">
+                <h3>Eco-Friendly Tips</h3>
+                <p>Receive personalized recommendations for more sustainable travel choices.</p>
+            </div>
+            <div class="item">
+                <h3>Predictive Analytics</h3>
+                <p>Analyze your travel patterns and get insights on how to improve your eco-friendly habits.</p>
+            </div>
+            <div class="item">
+                <h3>Recommendation System</h3>
+                <p>Receive personalized recommendations for eco-friendly travel alternatives.</p>
+            </div>
+            <div class="item">
+                <h3>Feedback Loop</h3>
+                <p>Provide feedback to help improve the recommendations and app functionality.</p>
+            </div>
+            <div class="item">
+                <h3>Friends and Leaderboards</h3>
+                <p>Add friends, compare your eco-friendly scores, and compete on leaderboards.</p>
+            </div>
+            <div class="item">
+                <h3>Rewards System</h3>
+                <p>Earn coins based on your eco-friendly activities and redeem them for coupons at local stores.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        &copy; 2023 EcoVoyage. All rights reserved.
+    </footer>
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+    </script>
+</body>
+</html>

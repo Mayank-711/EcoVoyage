@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}EcoVoyage{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/authapp.css' %}">
+    <style>
+        body{background-image: url('{% static "images/login.jpg" %}');}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <div id="logocircle"><img src="{% static 'images/logo.png' %}" alt="EcoVoyage"></div>
+            <span>EcoVoyage</span>
+        </div>
+        {% block content %}
+        {% endblock %}
+        <div id="bottombg">
+            <div id="bottomcurve">
+                {% block bottom %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+    {% block scripts %}
+    {% endblock %}
+</body>
+</html>

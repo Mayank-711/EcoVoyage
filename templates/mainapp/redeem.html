@@ -1,0 +1,20 @@
+{% extends 'mainapp/base.html' %}
+{%load static%}
+{% block title %}New Page Title{% endblock %}
+
+{% block extra_head %}
+    <!-- Add any additional CSS or JS files specific to this page -->
+    <link rel="stylesheet" href="{% static 'css/redeem.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="content-container">
+        <h2>Welcome to the New Page</h2>
+        <p>This is where your new page content goes.</p>
+        <!-- Add more content or HTML elements here -->
+    </div>
+{% endblock %}
+
+{% block extra_scripts %}
+    <!-- Add any additional JavaScript files or scripts specific to this page -->
+{% endblock %}

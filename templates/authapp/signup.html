@@ -1,0 +1,57 @@
+{% extends "authapp/base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<h1>Register</h1>
+<p>Create your account</p>
+<form method="post">
+    {% csrf_token %}
+    {% if messages %}
+        <div id="message-container" class="alert alert-warning" role="alert" style="color:crimson;">
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        </div>
+    {% endif %}
+    <input type="text" placeholder="Username" id="username" name="username" required>
+    <input type="email" placeholder="Email" id="email" name="email" required>
+    <input type="password" id="password" placeholder="Password" name="password" required>
+    <div class="links">
+        <label>
+            <input type="checkbox" id="show-password"> Show Password
+        </label>
+    </div>
+    <button type="submit">REGISTER</button>
+</form>
+{% endblock %}
+
+{% block bottom %}
+<p>Already have an account? <a href="{% url 'login' %}">Log In</a></p>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.getElementById('show-password').addEventListener('change', function() {
+        const passwordField = document.getElementById('password');
+        if (this.checked) {
+            passwordField.type = 'text';
+        } else {
+            passwordField.type = 'password';
+        }
+    });
+
+    // Function to hide messages after a delay
+    function hideMessages() {
+        const messageContainer = document.getElementById('message-container');
+        if (messageContainer) {
+            setTimeout(() => {
+                messageContainer.style.display = 'none';
+            }, 3000); 
+        }
+    }
+
+    // Call the hideMessages function when the document is loaded
+    document.addEventListener('DOMContentLoaded', hideMessages);
+</script>
+{% endblock %}

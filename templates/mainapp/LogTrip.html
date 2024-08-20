@@ -1,0 +1,85 @@
+{% extends 'mainapp/base.html' %}
+{% load static %}
+{% block title %}Log Trip{% endblock %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/logtrip.css' %}">
+{% endblock %}
+{% block content %}
+<div class="main-container">
+    <div class="form-container">
+        <h2>Log Your Trip</h2>
+        <form id="trip-form" action="{% url 'logtrip' %}" method="post">
+            {% csrf_token %}
+            <label for="source">Source</label>
+            <input type="text" id="source-input" name="source" placeholder="Enter source location" required />
+            <ul id="source-results" class="autocomplete-results"></ul>
+            <input type="hidden" id="source-lat" name="source_lat">
+            <input type="hidden" id="source-lng" name="source_lng">
+
+            <label for="destination">Destination</label>
+            <input type="text" id="destination-input" name="destination" placeholder="Enter destination location" required />
+            <ul id="destination-results" class="autocomplete-results"></ul>
+            <input type="hidden" id="dest-lat" name="dest_lat">
+            <input type="hidden" id="dest-lng" name="dest_lng">
+
+            <label for="mode-of-transport">Mode of Transport</label>
+            <select id="mode-of-transport" name="mode_of_transport" required>
+                <option value="bus">Bus</option>
+                <option value="train">Train</option>
+                <option value="car">Car</option>
+                <option value="bike">Bike</option>
+                <option value="walk">Walk</option>
+                <option value="bicycle">Bicycle</option>
+                <option value="rickshaw">RickShaw</option>
+                <option value="scooter">Scooter</option>
+            </select>
+            <div class="form-row">
+                <label><input type="radio" name="is_electric" value="yes"> Electric</label>
+                <label><input type="radio" name="is_electric" value="no" checked> Not Electric</label>
+            </div>
+            <label for="date">Date</label>
+            <input type="date" id="date" name="date" required />
+            <div class="form-row">
+                <label for="time-taken">Time Taken (minutes)</label>
+                <input type="number" id="time-taken" name="time_taken" step="1" required />
+            </div>
+
+            <button type="submit">Submit Trip</button>
+        </form>
+    </div>
+
+    <div class="trip-table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Log Time</th>
+                    <th>Date</th>
+                    <th>Source</th>
+                    <th>Destination</th>
+                    <th>Mode</th>
+                    <th>TimeTaken</th>
+                    <th>Carbon Footprint</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for trip in travellog %}
+                <tr>
+                    <td>{{ trip.log_time }}</td>
+                    <td>{{ trip.date }}</td>
+                    <td>{{ trip.source_address }}</td>
+                    <td>{{ trip.destination_address }}</td>
+                    <td>{{ trip.mode_of_transport|title }}</td>
+                    <td>{{ trip.time_taken}}mins</td>
+                    <td>{{ trip.carbon_footprint }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+{% block extra_scripts %}
+<script src="{% static 'js/logtrip.js'%}">
+</script>
+{% endblock %}

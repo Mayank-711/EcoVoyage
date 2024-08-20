@@ -1,0 +1,174 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: space-between;
+    background-color: #E5F6DF; /* Light green background */
+}
+
+.navbar, .footer {
+    background-color: #00563B;
+    color: #E5F6DF;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+.main-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch; /* Align items to stretch to the same height */
+    padding: 20px;
+}
+
+.form-container {
+    background-color: #00563B;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 350px;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    color: #E5F6DF;
+    position: relative;
+    margin: 0; /* Remove margin to align with the table */
+    flex-shrink: 0;
+    height: 550px; /* Prevent form from shrinking */
+}
+
+.form-container h2 {
+    text-align: center;
+    color: #E5F6DF;
+    margin-bottom: 20px;
+}
+
+.form-container label {
+    display: block;
+    margin-bottom: 8px;
+    color: #E5F6DF;
+    font-weight: bold;
+}
+
+.form-container input,
+.form-container select,
+.form-container button {
+    width: calc(100% - 20px);
+    padding: 8px;
+    margin-bottom: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+    transition: all 0.3s ease;
+}
+
+.form-container input:focus,
+.form-container select:focus,
+.form-container button:focus {
+    outline: none;
+    border-color: #00a5b5;
+    box-shadow: 0 0 5px rgba(0, 165, 181, 0.5);
+}
+
+.form-container input::placeholder,
+.form-container select {
+    color: #aaa;
+}
+
+.form-container button {
+    background-color: #E5F6DF;
+    color: #00563B;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.form-container button:hover {
+    background-color: #f4f9f4;
+    color: #00563B;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.form-row input[type="number"] {
+    flex: 1;
+}
+
+.autocomplete-results {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    width: calc(100% - 20px);
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+    box-sizing: border-box;
+}
+
+.autocomplete-results li {
+    padding: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    color: #00563B;
+}
+
+.autocomplete-results li:hover {
+    background-color: #e0f7fa;
+}
+
+.trip-table-container {
+    background-color: #E5F6DF;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    margin-left: 20px;
+    overflow-y: auto; /* Enable vertical scrolling */
+    height: 100%; /* Make the table container stretch to the full height */
+    flex-grow: 1; /* Allow the table container to grow to fill the available space */
+    height: 590px; /* Set max height to match the form-container's height */
+}
+
+table {
+    width: 100%;
+    border-collapse: separate; /* Changed from collapse to separate */
+    border-spacing: 0;
+    margin: 0;
+    font-size: 16px;
+    text-align: left;
+    background-color: white; /* White background for the entire table */
+    border: 2px solid #00563B;
+     /* Green border around the table */
+}
+
+table thead th {
+    background-color: #00563B;
+    color: #E5F6DF;
+    padding: 12px;
+    text-align: center;
+}
+
+table tbody td {
+    padding: 12px;
+    border: 2px solid #00563B; /* Green border for table cells */
+    color: #00563B;
+    text-align: center;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #f4f9f4;
+}
+
+table tbody tr:hover {
+    background-color: #f1f1f1;
+}
