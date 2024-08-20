@@ -197,7 +197,6 @@ def logtrip(request):
                     log_time=log_time
                 )
 
-                messages.success(request, 'Trip logged successfully!')
             else:
                 messages.error(request, 'Error fetching data from API')
         except Exception as e:
