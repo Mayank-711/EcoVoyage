@@ -64,7 +64,7 @@ def mappage(request):
                         "Bicycle": 0,
                         "Walk": 0,
                         "Bike": 74,
-                        "Ebike": 
+                        "Ebike": 22,
                         "Rickshaw": 25.67,
                         "Erickshaw": 13.33,
                         "Scooter": 55,
