@@ -1,3 +1,4 @@
+/* General Body Styles */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -97,7 +98,7 @@ body {
     bottom: 10px;
 }
 
-/* Additional Styles */
+/* Form Styles */
 .form-container h2 {
     text-align: center;
     color: #E5F6DF; /* Light green text */
@@ -149,6 +150,7 @@ body {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
+/* Autocomplete Results */
 .autocomplete-results {
     list-style-type: none;
     padding: 0;
@@ -176,4 +178,42 @@ body {
     background-color: #e0f7fa; /* Light cyan background on hover */
 }
 
-/* Eco-Friendly Tips Styles */
+/* Eco-Friendly Tips and Graphs Styles */
+#graph-container {
+    margin: 20px auto;
+    max-width: 100%;  /* Ensure it matches the graph width */
+    background-color: #fff; /* White background */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    color: #00563B; /* Dark green text */
+    display: flex;
+    flex-direction: row; /* Arrange graphs in a row */
+    justify-content: space-between; /* Adjust space distribution */
+    align-items: flex-start;
+    flex-wrap: nowrap; /* Prevent wrapping */
+}
+
+.graph-section {
+    flex: 1 1 30%; /* Adjust the width of each section */
+    margin: 5px; /* Reduced space between sections */
+    display: flex;
+    flex-direction: column; /* Stack heading and graph vertically */
+    align-items: center;
+}
+
+.graph-section h3 {
+    margin: 0 0 5px 0; /* Reduced space below the heading */
+    color: #00563B; /* Dark green text for heading */
+    text-align: center; /* Center-align the headings */
+}
+
+#bar-chart-section {
+    flex: 1 1 35%; /* Adjust width to accommodate the bar chart */
+    margin: 5px; /* Reduced space between sections */
+}
+
+/* Ensure the container of each chart adapts to its content */
+.graph-section, #bar-chart-section {
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
