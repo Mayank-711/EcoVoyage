@@ -217,6 +217,7 @@ def logtrip(request):
 
 @login_required(login_url='/login/')
 def leaderboards(request):
+    
     return render(request,'mainapp/leaderboards.html')
 
 @login_required(login_url='/login/')
