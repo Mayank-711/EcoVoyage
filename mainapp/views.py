@@ -7,16 +7,14 @@ import json
 from django.contrib import messages
 from .models import TravelLog,Chat
 from django.utils.dateparse import parse_duration
-import requests
-from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 import requests
 from django.contrib.auth.decorators import login_required
+
 logger = logging.getLogger(__name__)
 
-
 @csrf_exempt
-@login_required(login_url='login')
+@login_required(login_url='/login/')
 def mappage(request):
     user = request.user
     
@@ -99,7 +97,7 @@ def mappage(request):
     chats = Chat.objects.filter(user=user).order_by('-search_date', '-search_time')[:5]
     return render(request, 'mainapp/mappage.html', {'chats': chats})
 
-@login_required(login_url='login')
+@login_required(login_url='/login/')
 def logtrip(request):
     user = request.user
     if request.method == 'POST':
@@ -115,6 +113,7 @@ def logtrip(request):
         time_taken = request.POST.get('time_taken')
         date = request.POST.get('date')
         log_time = datetime.now().strftime('%H:%M:%S')
+
         # If the vehicle is electric, adjust the mode of transport
         if is_electric == "yes":
             mode_of_transport = "e" + mode_of_transport
@@ -198,7 +197,8 @@ def logtrip(request):
                     carbon_footprint=carbonfootprint,
                     log_time=log_time
                 )
-                print(source_add,dest_add,source_lat,destination_lat,source_lon,destination_lon,mode_of_transport,time_taken,date,log_time,sep = "\n")
+
+                messages.success(request, 'Trip logged successfully!')
             else:
                 messages.error(request, 'Error fetching data from API')
         except Exception as e:
@@ -215,10 +215,10 @@ def logtrip(request):
     }
     return render(request, 'mainapp/LogTrip.html', context)
 
-@login_required(login_url='login')
+@login_required(login_url='/login/')
 def leaderboards(request):
     return render(request,'mainapp/leaderboards.html')
 
-@login_required(login_url='login')
+@login_required(login_url='/login/')
 def redeem(request):
     return render(request,'mainapp/redeem.html')

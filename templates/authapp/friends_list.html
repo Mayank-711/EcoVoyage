@@ -1,0 +1,208 @@
+{% extends 'mainapp/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .container {
+        width: 80%;
+        max-width: 1200px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .search-container {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 20px;
+    }
+
+    .search-container input[type="text"] {
+        padding: 10px;
+        border-radius: 20px;
+        border: 3px solid #bbb;
+        width: 250px;
+    }
+
+    .search-container button {
+        background-color: #00563B;
+        color: #fff;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        margin-left: 10px;
+        transition: background-color 0.3s ease;
+    }
+
+    .search-container button:hover {
+        background-color: #00412A;
+    }
+
+    .user-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .user-grid-item {
+        padding: 15px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        position: relative;
+    }
+
+    .user-grid-item:hover {
+        background-color: #f0f0f0;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+    }
+
+    .user-avatar {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .user-info {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .user-info h3 {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    .user-buttons {
+        margin-left: auto;
+    }
+
+    .user-buttons button {
+        background-color: #00563B;
+        color: #fff;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 20px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .user-buttons button.sent {
+        background-color: #a0a0a0;
+        cursor: not-allowed;
+    }
+
+    .user-buttons button:hover {
+        background-color: #00412A;
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            width: 95%;
+            padding: 10px;
+        }
+
+        .search-container input[type="text"] {
+            width: 100%;
+        }
+
+        .user-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .button-container {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .button-container button {
+        background-color: #00563B;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 600;
+        transition: background-color 0.3s ease;
+    }
+
+    .button-container button:hover {
+        background-color: #00412A;
+    }
+</style>
+
+<div class="container">
+    <div class="search-container">
+        <form action="{% url 'search_users' %}" method="GET">
+            <input type="text" name="q" placeholder="Search your friends...">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    
+    <ul class="user-grid">
+        {% for user in users %}
+            <li class="user-grid-item">
+                <!-- Display user's avatar -->
+                {% if user.userprofile.avatar == '1' %}
+                    <img src="{% static 'avatar/kid.jpg' %}" alt="Avatar 1" class="user-avatar">
+                {% elif user.userprofile.avatar == '2' %}
+                    <img src="{% static 'avatar/men.jpg' %}" alt="Avatar 2" class="user-avatar">
+                {% elif user.userprofile.avatar == '3' %}
+                    <img src="{% static 'avatar/girl1.jpg' %}" alt="Avatar 3" class="user-avatar">
+                {% elif user.userprofile.avatar == '4' %}
+                    <img src="{% static 'avatar/girl2.jpg' %}" alt="Avatar 4" class="user-avatar">
+                {% elif user.userprofile.avatar == '5' %}
+                    <img src="{% static 'avatar/girl3.jpg' %}" alt="Avatar 5" class="user-avatar">
+                {% elif user.userprofile.avatar == '6' %}
+                    <img src="{% static 'avatar/girl4.jpg' %}" alt="Avatar 6" class="user-avatar">
+                {% elif user.userprofile.avatar == '7' %}
+                    <img src="{% static 'avatar/boy1.jpg' %}" alt="Avatar 7" class="user-avatar">
+                {% elif user.userprofile.avatar == '8' %}
+                    <img src="{% static 'avatar/boy2.jpg' %}" alt="Avatar 8" class="user-avatar">
+                {% elif user.userprofile.avatar == '9' %}
+                    <img src="{% static 'avatar/ninja.jpg' %}" alt="Avatar 9" class="user-avatar">
+                {% else %}
+                    <img src="{% static 'avatar/default.jpg' %}" alt="Default Avatar" class="user-avatar">
+                {% endif %}
+                <div class="user-info">
+                    <h3>{{ user.username }}</h3>
+                    <div class="user-buttons">
+                        <a href="{% url 'add_friend' user_id=user.id %}">
+                            <button class="{% if user.id in sent_requests %}sent{% endif %}">
+                                {% if user.id in sent_requests %}Request Sent{% else %}Add Friend{% endif %}
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+    
+    <div class="button-container">
+        <a href="{% url 'view_profile' user.id %}">
+            <button>Back to Profile</button>
+        </a>
+    </div>
+</div>
+{% endblock %}
