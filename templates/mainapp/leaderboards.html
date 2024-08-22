@@ -1,17 +1,32 @@
 {% extends 'mainapp/base.html' %}
-{%load static%}
-{% block title %}LeaderBoards{% endblock %}
+{% load static %}
+{% block title %}Weekly Leaderboards{% endblock %}
 
 {% block extra_head %}
-    <link rel="stylesheet" href="{% static 'css/leaderboars.css' %}">
+    <link rel="stylesheet" href="{% static 'css/leaderboards.css' %}">
 {% endblock %}
 
 {% block content %}
-    <div class="content-container">
-        <h1>LeaderBoards</h1>
+    <div class="leaderboard-container">
+        <h2>Weekly Leaderboard - {{ now|date:"F j, Y" }}</h2> <!-- Show the current week or date range -->
+        {% if leaderboard %}
+            <ul class="leaderboard-list">
+                {% for entry in leaderboard %}
+                    <li class="leaderboard-item">
+                        <!-- <div class="profile-pic">
+                            <img src="{{ entry.user__userprofile__image.url }}" alt="{{ entry.user__username }}'s profile picture">
+                        </div> -->
+                        <div class="leaderboard-info">
+                            <p class="username">{{ entry.user__username }}</p>
+                            <p>Total Distance: {{ entry.total_distance }} km</p>
+                            <p>Total CO2: {{ entry.total_carbon }} g</p>
+                            <p>Efficiency: {{ entry.efficiency|floatformat:2 }}</p>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No data available for this week.</p>
+        {% endif %}
     </div>
-{% endblock %}
-
-{% block extra_scripts %}
-    <!-- Add any additional JavaScript files or scripts specific to this page -->
 {% endblock %}

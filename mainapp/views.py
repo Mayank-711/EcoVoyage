@@ -9,8 +9,9 @@ import requests
 from django.contrib.auth.decorators import login_required
 import plotly.graph_objs as go
 from plotly.subplots import make_subplots
-from django.db.models import Sum
+from django.db.models import Sum,F
 from django.utils.safestring import mark_safe
+from authapp.models import UserProfile
 
 logger = logging.getLogger(__name__)
 
@@ -380,10 +381,29 @@ def logtrip(request):
     }
     return render(request, 'mainapp/LogTrip.html', context)
 
-@login_required(login_url='/login/')
-def leaderboards(request):
+
+
+def get_weekly_leaderboard():
+    today = datetime.now().date()
+    start_of_week = today - timedelta(days=today.weekday())  # Monday as the start of the week
     
-    return render(request,'mainapp/leaderboards.html')
+    # Filter logs from the start of the current week to today
+    weekly_logs = TravelLog.objects.filter(date__gte=start_of_week, date__lte=today)
+
+    # Aggregate total distance and carbon footprint by user
+    leaderboard = weekly_logs.values('user__username').annotate(
+        total_distance=Sum('distance'),
+        total_carbon=Sum('carbon_footprint')
+    ).annotate(
+        efficiency=F('total_carbon') / F('total_distance')
+    ).order_by('efficiency')  # Order by efficiency (descending)
+
+    return leaderboard
+
+def leaderboards(request):
+    leaderboard = get_weekly_leaderboard()
+    context = {'leaderboard': leaderboard}
+    return render(request, 'mainapp/leaderboards.html', context)
 
 @login_required(login_url='/login/')
 def redeem(request):
