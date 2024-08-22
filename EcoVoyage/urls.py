@@ -47,6 +47,7 @@ mainappurl = [
     path('leaderboards/',mviews.leaderboards,name='leaderboards'),
     path('logtrip/',mviews.logtrip,name='logtrip'),
     path('redeem/',mviews.redeem,name='redeem'),
+    path('process_form/',mviews.process_form,name='process_form')
 ]
 
 urlpatterns = urlpatterns + authappurl + mainappurl

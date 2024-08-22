@@ -10,7 +10,7 @@
 <div id="row">
     <div class="form-container">
         <h2>Plan Your Trip</h2>
-        <form id="trip-form" action="{% url 'mappage' %}" method="post">
+        <form id="trip-form" action="{% url 'process_form' %}" method="post">
             {% csrf_token %}
             <label for="source">Source</label>
             <input type="text" id="source-input" name="source-add" placeholder="Enter source location" required />

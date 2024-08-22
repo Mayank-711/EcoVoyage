@@ -1,13 +1,10 @@
 from datetime import date, datetime
 import logging
 from django.shortcuts import redirect, render
-from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-import json
 from django.contrib import messages
 from .models import TravelLog,Chat
 from django.utils.dateparse import parse_duration
-from django.http import JsonResponse
 import requests
 from django.contrib.auth.decorators import login_required
 
@@ -15,10 +12,9 @@ logger = logging.getLogger(__name__)
 
 @csrf_exempt
 @login_required(login_url='/login/')
-def mappage(request):
-    user = request.user
-    
+def process_form(request):
     if request.method == 'POST':
+        user = request.user
         search_date = date.today()
         search_time = datetime.now().strftime('%H:%M:%S')
 
@@ -28,7 +24,7 @@ def mappage(request):
         dest_lng = request.POST.get('dest_lng')
         source_add = request.POST.get('source-add')
         dest_add = request.POST.get('destination-add')
-        print(source_lat,source_lng,dest_lat,dest_lng,source_add,dest_add,sep="\n")
+        
         if source_lat and source_lng and dest_lat and dest_lng:
             try:
                 params = {
@@ -92,10 +88,14 @@ def mappage(request):
                     return render(request, 'mainapp/mappage.html', {'error': 'Error fetching data from API'})
             except Exception as e:
                 return render(request, 'mainapp/mappage.html', {'error': str(e)})
-    
+            
+@login_required(login_url='/login/')
+def mappage(request):
+    user = request.user
     # GET request or after processing the trip
     chats = Chat.objects.filter(user=user).order_by('-search_date', '-search_time')[:5]
     return render(request, 'mainapp/mappage.html', {'chats': chats})
+
 
 @login_required(login_url='/login/')
 def logtrip(request):
