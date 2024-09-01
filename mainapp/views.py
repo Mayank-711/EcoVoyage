@@ -11,7 +11,7 @@ import plotly.graph_objs as go
 from plotly.subplots import make_subplots
 from django.db.models import Sum,F
 from django.utils.safestring import mark_safe
-from authapp.models import UserProfile
+from authapp.models import UserProfile,Friendship,User
 
 logger = logging.getLogger(__name__)
 
@@ -420,8 +420,22 @@ def get_weekly_leaderboard():
         'end_of_week': end_of_week
     }
 
+def friend_leaderboards(user):
+    friends_from_user = Friendship.objects.filter(from_user=user, accepted=True).values_list('to_user', flat=True)
+    friends_to_user = Friendship.objects.filter(to_user=user, accepted=True).values_list('from_user', flat=True)
+    
+    # Combine both lists to get all friends
+    friends_ids = set(friends_from_user) | set(friends_to_user)
+    
+    # Fetch friend profiles
+    friends = User.objects.filter(id__in=friends_ids).select_related('userprofile')
+    return friend_leaderboards
+
+@login_required(login_url='/login/')
 def leaderboards(request):
     now = datetime.now()
+    user = request.user
+    friends_lboard_data = friend_leaderboards(user)
     leaderboard_data = get_weekly_leaderboard()
     context = {
         'leaderboard': leaderboard_data['leaderboard'],
