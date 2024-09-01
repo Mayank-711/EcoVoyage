@@ -53,19 +53,19 @@ def process_form(request):
                     total_distance = round(total_distance, 2)
                     total_duration = round(total_duration, 2)
                     list_of_transport = {
-                        "Bus": 20.55,
-                        "E-bus": 2.65,
-                        "Train": 41,
-                        "E-Train": 14,
+                        "Bus": 50,
+                        "E-bus": 15,
+                        "Train (if Applicable)": 41,
+                        "E-Train(if Applicable)": 14,
                         "Car": 128,
                         "E-car": 66.67,
-                        "Metro": 5,
+                        "Metro(if Applicable)": 5,
                         "Bicycle": 0,
                         "Walk": 0,
                         "Bike": 74,
                         "Ebike": 22,
-                        "Rickshaw": 25.67,
-                        "Erickshaw": 13.33,
+                        "Rickshaw": 51.67,
+                        "Erickshaw": 24.33,
                         "Scooter": 55,
                         "E-scooter": 22
                     }
@@ -313,8 +313,8 @@ def logtrip(request):
 
                 # Calculate carbon footprint
                 list_of_transport = {
-                    "bus": 20.55,
-                    "ebus": 2.65,
+                    "bus": 50,
+                    "ebus": 15,
                     "train": 41,
                     "etrain": 14,
                     "car": 128,
@@ -324,8 +324,8 @@ def logtrip(request):
                     "walk": 0,
                     "bike": 74,
                     "ebike": 22,
-                    "rickshaw": 25.67,
-                    "erickshaw": 13.33,
+                    "rickshaw": 51.67,
+                    "erickshaw": 24.33,
                     "scooter": 55,
                     "escooter": 22
                 }
