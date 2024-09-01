@@ -102,7 +102,9 @@ def mappage(request):
     chats = Chat.objects.filter(user=user).order_by('-search_date', '-search_time')[:5]
 
     today = datetime.now().date()
-    start_of_week = today - timedelta(days=today.weekday())
+
+    # Adjust week start and end dates for a week starting on Sunday and ending on Saturday
+    start_of_week = today - timedelta(days=today.weekday() + 1) if today.weekday() != 6 else today
     end_of_week = start_of_week + timedelta(days=6)
 
     # Query to get the total distance and carbon footprint for each mode of transport this week
@@ -139,21 +141,21 @@ def mappage(request):
         showlegend=False
     )])
     distance_pie.update_layout(
-    title={
-        'text': "Distance (km)",
-        'x': 0.5,  # Center the title horizontally
-        'xanchor': 'center',  # Center the title horizontally
-        'y': 1.0,  # Position the title at the top
-        'yanchor': 'top',  # Align the title to the top
-        'font': {
-            'size': 16,  # Adjust title font size as needed
-            'color': '#00563B'  # Dark green color
-        }
-    },
-    margin=dict(t=40, b=0, l=0, r=0),  # Adjust margins to fit the title
-    height=400,  # Set height to ensure the title fits
-    width=400  # Set width as needed
-)
+        title={
+            'text': "Distance (km)",
+            'x': 0.5,  # Center the title horizontally
+            'xanchor': 'center',  # Center the title horizontally
+            'y': 1.0,  # Position the title at the top
+            'yanchor': 'top',  # Align the title to the top
+            'font': {
+                'size': 16,  # Adjust title font size as needed
+                'color': '#00563B'  # Dark green color
+            }
+        },
+        margin=dict(t=40, b=0, l=0, r=0),  # Adjust margins to fit the title
+        height=400,  # Set height to ensure the title fits
+        width=400  # Set width as needed
+    )
 
     # Create the carbon footprint pie chart
     carbon_footprint_pie = go.Figure(data=[go.Pie(
@@ -163,21 +165,21 @@ def mappage(request):
         showlegend=False
     )])
     carbon_footprint_pie.update_layout(
-    title={
-        'text': "Distance (km)",
-        'x': 0.5,  # Center the title horizontally
-        'xanchor': 'center',  # Center the title horizontally
-        'y': 1.0,  # Position the title at the top
-        'yanchor': 'top',  # Align the title to the top
-        'font': {
-            'size': 16,  # Adjust title font size as needed
-            'color': '#00563B'  # Dark green color
-        }
-    },
-    margin=dict(t=40, b=0, l=0, r=0),  # Adjust margins to fit the title
-    height=400,  # Set height to ensure the title fits
-    width=400  # Set width as needed
-)
+        title={
+            'text': "Distance (km)",
+            'x': 0.5,  # Center the title horizontally
+            'xanchor': 'center',  # Center the title horizontally
+            'y': 1.0,  # Position the title at the top
+            'yanchor': 'top',  # Align the title to the top
+            'font': {
+                'size': 16,  # Adjust title font size as needed
+                'color': '#00563B'  # Dark green color
+            }
+        },
+        margin=dict(t=40, b=0, l=0, r=0),  # Adjust margins to fit the title
+        height=400,  # Set height to ensure the title fits
+        width=400  # Set width as needed
+    )
 
     # Create the bar chart for average carbon footprint per meter
     start_of_last_week = start_of_week - timedelta(weeks=1)
@@ -213,7 +215,6 @@ def mappage(request):
     except ZeroDivisionError:
         this_week_avg = last_week_avg = week_before_avg = 0
 
-    print(this_week_avg,last_week_avg,week_before_avg,sep="\n")
     # Prepare data for bar chart
     weeks = ['This Week', 'Last Week', 'Week Before Last']
     averages = [this_week_avg, last_week_avg, week_before_avg]
@@ -257,10 +258,9 @@ def mappage(request):
         'distance_pie': mark_safe(distance_pie_html),
         'carbon_footprint_pie': mark_safe(carbon_footprint_pie_html), 
         'avg_graph': mark_safe(avg_plot_html),
-        'w1total_distance':this_week_total_distance,
-        'w1total_co2':this_week_total_carbon_footprint
+        'w1total_distance': this_week_total_distance,
+        'w1total_co2': this_week_total_carbon_footprint
     })
-
 
 
 @login_required(login_url='/login/')
@@ -381,14 +381,15 @@ def logtrip(request):
     }
     return render(request, 'mainapp/LogTrip.html', context)
 
-
-
 def get_weekly_leaderboard():
     today = datetime.now().date()
-    start_of_week = today - timedelta(days=today.weekday())  # Monday as the start of the week
-    
-    # Filter logs from the start of the current week to today
-    weekly_logs = TravelLog.objects.filter(date__gte=start_of_week, date__lte=today)
+
+    # Adjust week start and end dates for a week starting on Sunday and ending on Saturday
+    start_of_week = today - timedelta(days=today.weekday() + 1) if today.weekday() != 6 else today
+    end_of_week = start_of_week + timedelta(days=6)
+
+    # Filter logs from the start of the current week (Sunday) to the end of the week (Saturday)
+    weekly_logs = TravelLog.objects.filter(date__gte=start_of_week, date__lte=end_of_week)
 
     # Aggregate total distance and carbon footprint by user
     leaderboard = weekly_logs.values('user__username').annotate(
@@ -396,7 +397,7 @@ def get_weekly_leaderboard():
         total_carbon=Sum('carbon_footprint')
     ).annotate(
         efficiency=F('total_carbon') / F('total_distance')
-    ).order_by('efficiency')  # Order by efficiency (descending)
+    ).order_by('efficiency')  # Order by efficiency (ascending for better efficiency)
 
     return leaderboard
 
