@@ -6,201 +6,265 @@
     <link rel="stylesheet" href="{% static 'css/leaderboards.css' %}">
     <style>
         /* leaderboards.css */
-.leaderboard-container {
-    max-width: 95%;
-    margin: 20px auto;
-    background-color: #f4f4f4;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    color: #333;
-    font-family: 'Arial', sans-serif;
-}
+        .leaderboard-container {
+            max-width: 95%;
+            margin: 20px auto;
+            background-color: #f4f4f4;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            color: #333;
+            font-family: 'Arial', sans-serif;
+        }
 
-.leaderboard-container h2 {
-    text-align: center;
-    color: #2c6e49;
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-}
+        .leaderboard-container h2 {
+            text-align: center;
+            color: #2c6e49;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
 
-.leaderboard-list {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
+        .leaderboard-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
 
-.leaderboard-entry {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #fff;
-    padding: 15px 20px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border: 1px solid #e0e0e0;
-    position: relative;
-    overflow: hidden; /* Prevents content overflow */
-}
+        .leaderboard-entry {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #fff;
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #e0e0e0;
+            position: relative;
+            overflow: hidden; /* Prevents content overflow */
+        }
 
-.leaderboard-entry:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    border-color: #2c6e49;
-}
+        .leaderboard-entry:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border-color: #2c6e49;
+        }
 
-.profile-info {
-    display: flex;
-    align-items: center;
-    flex-shrink: 0; /* Prevents shrinking */
-}
+        .profile-info {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0; /* Prevents shrinking */
+        }
 
-.profile-info .avatar {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    border: 2px solid #2c6e49;
-}
+        .profile-info .avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 2px solid #2c6e49;
+        }
 
-.rank-counter {
-    font-weight: bold;
-    color: #2c6e49;
-    font-size: 1.2rem;
-    width: 40px; /* Fixed width for consistent alignment */
-    text-align: center;
-}
+        .rank-counter {
+            font-weight: bold;
+            color: #2c6e49;
+            font-size: 1.2rem;
+            width: 40px; /* Fixed width for consistent alignment */
+            text-align: center;
+        }
 
-.leaderboard-entry span {
-    flex: 1; /* Ensure spans grow equally */
-    text-align: center;
-    color: #555;
-    display: inline-block; /* Ensure spans do not stretch */
-    overflow: hidden; /* Prevents overflow */
-    text-overflow: ellipsis; /* Adds ellipsis for long text */
-    white-space: nowrap; /* Prevents text wrapping */
-}
+        .leaderboard-entry span {
+            flex: 1; /* Ensure spans grow equally */
+            text-align: center;
+            color: #555;
+            display: inline-block; /* Ensure spans do not stretch */
+            overflow: hidden; /* Prevents overflow */
+            text-overflow: ellipsis; /* Adds ellipsis for long text */
+            white-space: nowrap; /* Prevents text wrapping */
+        }
 
-.leaderboard-entry span:first-of-type {
-    text-align: left;
-    font-weight: bold;
-    color: #2c6e49;
-}
+        .leaderboard-entry span:first-of-type {
+            text-align: left;
+            font-weight: bold;
+            color: #2c6e49;
+        }
 
-.leaderboard-entry span:last-of-type {
-    text-align: right;
-    font-weight: bold;
-    color: #d9534f;
-}
+        .leaderboard-entry span:last-of-type {
+            text-align: right;
+            font-weight: bold;
+            color: #d9534f;
+        }
 
-/* Media query for responsiveness */
-@media (max-width: 600px) {
-    .leaderboard-entry {
-        flex-direction: column;
-        align-items: flex-start;
-    }
+        /* Media query for responsiveness */
+        @media (max-width: 600px) {
+            .leaderboard-entry {
+                flex-direction: column;
+                align-items: flex-start;
+            }
 
-    .leaderboard-entry span {
-        text-align: left;
-        width: 100%;
-        margin-top: 5px;
-        white-space: normal; /* Allow text to wrap on smaller screens */
-    }
+            .leaderboard-entry span {
+                text-align: left;
+                width: 100%;
+                margin-top: 5px;
+                white-space: normal; /* Allow text to wrap on smaller screens */
+            }
 
-    .leaderboard-entry span:first-of-type {
-        margin-top: 0;
-    }
+            .leaderboard-entry span:first-of-type {
+                margin-top: 0;
+            }
 
-    .profile-info {
-        margin-bottom: 10px;
-    }
-}
+            .profile-info {
+                margin-bottom: 10px;
+            }
+        }
 
+        /* Buttons styling */
+        .toggle-buttons {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .toggle-buttons button {
+            background-color: #2c6e49;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+
+        .toggle-buttons button.active {
+            background-color: #1f4d28;
+        }
+
+        .toggle-buttons button:hover {
+            background-color: #1f4d28;
+        }
+
+        .leaderboard-section {
+            display: none;
+        }
+
+        .leaderboard-section.active {
+            display: block;
+        }
     </style>
 {% endblock %}
 
 {% block content %}
-    <div class="leaderboard-container">
-        <h2>Weekly Leaderboard - From {{ start_of_week|date:"F j, Y" }} to {{ end_of_week|date:"F j, Y" }}</h2>
-        {% if leaderboard %}
-            <ul class="leaderboard-list">
-                {% for entry in leaderboard %}
-                    <li class="leaderboard-entry">
-                        <span class="rank-counter">{{ forloop.counter }}.</span>
-                        <div class="profile-info">
-                            {% if entry.avatar == '1' %}
-                                <img src="{% static 'avatar/kid.jpg' %}" alt="Avatar 1" class="avatar">
-                            {% elif entry.avatar == '2' %}
-                                <img src="{% static 'avatar/men.jpg' %}" alt="Avatar 2" class="avatar">
-                            {% elif entry.avatar == '3' %}
-                                <img src="{% static 'avatar/girl1.jpg' %}" alt="Avatar 3" class="avatar">
-                            {% elif entry.avatar == '4' %}
-                                <img src="{% static 'avatar/girl2.jpg' %}" alt="Avatar 4" class="avatar">
-                            {% elif entry.avatar == '5' %}
-                                <img src="{% static 'avatar/girl3.jpg' %}" alt="Avatar 5" class="avatar">
-                            {% elif entry.avatar == '6' %}
-                                <img src="{% static 'avatar/girl4.jpg' %}" alt="Avatar 6" class="avatar">
-                            {% elif entry.avatar == '7' %}
-                                <img src="{% static 'avatar/boy1.jpg' %}" alt="Avatar 7" class="avatar">
-                            {% elif entry.avatar == '8' %}
-                                <img src="{% static 'avatar/boy2.jpg' %}" alt="Avatar 8" class="avatar">
-                            {% elif entry.avatar == '9' %}
-                                <img src="{% static 'avatar/ninja.jpg' %}" alt="Avatar 9" class="avatar">
-                            {% else %}
-                                <img src="{% static 'avatar/default.jpg' %}" alt="Default Avatar" class="avatar">
-                            {% endif %}
-                        </div>
-                        <span>{{ entry.user__username }}</span>
-                        <span>Total Distance: {{ entry.total_distance }}km</span>
-                        <span>Total CarbonFootprint: {{ entry.total_carbon }}g</span>
-                        <span>Ratio: {{ entry.efficiency }} g/km</span>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>No data available for this week.</p>
-        {% endif %}
+    <div class="toggle-buttons">
+        <button id="globalButton" class="active">Global Leaderboard</button>
+        <button id="friendsButton">Friends Leaderboard</button>
     </div>
 
-    <div class="leaderboard-container">
-        <h2>Your Friends' Leaderboard - From {{ start_of_week|date:"F j, Y" }} to {{ end_of_week|date:"F j, Y" }}</h2>
-        {% if friends_leaderboard %}
-            <ul class="leaderboard-list">
-                {% for entry in friends_leaderboard %}
-                    <li class="leaderboard-entry">
-                        <span class="rank-counter">{{ forloop.counter }}.</span>
-                        <div class="profile-info">
-                            {% if entry.avatar == '1' %}
-                                <img src="{% static 'avatar/kid.jpg' %}" alt="Avatar 1" class="avatar">
-                            {% elif entry.avatar == '2' %}
-                                <img src="{% static 'avatar/men.jpg' %}" alt="Avatar 2" class="avatar">
-                            {% elif entry.avatar == '3' %}
-                                <img src="{% static 'avatar/girl1.jpg' %}" alt="Avatar 3" class="avatar">
-                            {% elif entry.avatar == '4' %}
-                                <img src="{% static 'avatar/girl2.jpg' %}" alt="Avatar 4" class="avatar">
-                            {% elif entry.avatar == '5' %}
-                                <img src="{% static 'avatar/girl3.jpg' %}" alt="Avatar 5" class="avatar">
-                            {% elif entry.avatar == '6' %}
-                                <img src="{% static 'avatar/girl4.jpg' %}" alt="Avatar 6" class="avatar">
-                            {% elif entry.avatar == '7' %}
-                                <img src="{% static 'avatar/boy1.jpg' %}" alt="Avatar 7" class="avatar">
-                            {% elif entry.avatar == '8' %}
-                                <img src="{% static 'avatar/boy2.jpg' %}" alt="Avatar 8" class="avatar">
-                            {% elif entry.avatar == '9' %}
-                                <img src="{% static 'avatar/ninja.jpg' %}" alt="Avatar 9" class="avatar">
-                            {% else %}
-                                <img src="{% static 'avatar/default.jpg' %}" alt="Default Avatar" class="avatar">
-                            {% endif %}
-                        </div>
-                        <span>{{ entry.user__username }}</span>
-                        <span>Total Distance: {{ entry.total_distance }}km</span>
-                        <span>Total CarbonFootprint: {{ entry.total_carbon }}g</span>
-                        <span>Ratio: {{ entry.efficiency }} g/km</span>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>No data available for your friends this week.</p>
-        {% endif %}
+    <div id="globalLeaderboard" class="leaderboard-section active">
+        <div class="leaderboard-container">
+            <h2>Weekly Leaderboard - From {{ start_of_week|date:"F j, Y" }} to {{ end_of_week|date:"F j, Y" }}</h2>
+            {% if leaderboard %}
+                <ul class="leaderboard-list">
+                    {% for entry in leaderboard %}
+                        <li class="leaderboard-entry">
+                            <span class="rank-counter">{{ forloop.counter }}.</span>
+                            <div class="profile-info">
+                                {% if entry.avatar == '1' %}
+                                    <img src="{% static 'avatar/kid.jpg' %}" alt="Avatar 1" class="avatar">
+                                {% elif entry.avatar == '2' %}
+                                    <img src="{% static 'avatar/men.jpg' %}" alt="Avatar 2" class="avatar">
+                                {% elif entry.avatar == '3' %}
+                                    <img src="{% static 'avatar/girl1.jpg' %}" alt="Avatar 3" class="avatar">
+                                {% elif entry.avatar == '4' %}
+                                    <img src="{% static 'avatar/girl2.jpg' %}" alt="Avatar 4" class="avatar">
+                                {% elif entry.avatar == '5' %}
+                                    <img src="{% static 'avatar/girl3.jpg' %}" alt="Avatar 5" class="avatar">
+                                {% elif entry.avatar == '6' %}
+                                    <img src="{% static 'avatar/girl4.jpg' %}" alt="Avatar 6" class="avatar">
+                                {% elif entry.avatar == '7' %}
+                                    <img src="{% static 'avatar/boy1.jpg' %}" alt="Avatar 7" class="avatar">
+                                {% elif entry.avatar == '8' %}
+                                    <img src="{% static 'avatar/boy2.jpg' %}" alt="Avatar 8" class="avatar">
+                                {% elif entry.avatar == '9' %}
+                                    <img src="{% static 'avatar/ninja.jpg' %}" alt="Avatar 9" class="avatar">
+                                {% else %}
+                                    <img src="{% static 'avatar/default.jpg' %}" alt="Default Avatar" class="avatar">
+                                {% endif %}
+                            </div>
+                            <span>{{ entry.user__username }}</span>
+                            <span>Total Distance: {{ entry.total_distance }}km</span>
+                            <span>Total CarbonFootprint: {{ entry.total_carbon }}g</span>
+                            <span>Ratio: {{ entry.efficiency }} g/km</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No data available for this week.</p>
+            {% endif %}
+        </div>
     </div>
+
+    <div id="friendsLeaderboard" class="leaderboard-section">
+        <div class="leaderboard-container">
+            <h2>Your Friends' Leaderboard - From {{ start_of_week|date:"F j, Y" }} to {{ end_of_week|date:"F j, Y" }}</h2>
+            {% if friends_leaderboard %}
+                <ul class="leaderboard-list">
+                    {% for entry in friends_leaderboard %}
+                        <li class="leaderboard-entry">
+                            <span class="rank-counter">{{ forloop.counter }}.</span>
+                            <div class="profile-info">
+                                {% if entry.avatar == '1' %}
+                                    <img src="{% static 'avatar/kid.jpg' %}" alt="Avatar 1" class="avatar">
+                                {% elif entry.avatar == '2' %}
+                                    <img src="{% static 'avatar/men.jpg' %}" alt="Avatar 2" class="avatar">
+                                {% elif entry.avatar == '3' %}
+                                    <img src="{% static 'avatar/girl1.jpg' %}" alt="Avatar 3" class="avatar">
+                                {% elif entry.avatar == '4' %}
+                                    <img src="{% static 'avatar/girl2.jpg' %}" alt="Avatar 4" class="avatar">
+                                {% elif entry.avatar == '5' %}
+                                    <img src="{% static 'avatar/girl3.jpg' %}" alt="Avatar 5" class="avatar">
+                                {% elif entry.avatar == '6' %}
+                                    <img src="{% static 'avatar/girl4.jpg' %}" alt="Avatar 6" class="avatar">
+                                {% elif entry.avatar == '7' %}
+                                    <img src="{% static 'avatar/boy1.jpg' %}" alt="Avatar 7" class="avatar">
+                                {% elif entry.avatar == '8' %}
+                                    <img src="{% static 'avatar/boy2.jpg' %}" alt="Avatar 8" class="avatar">
+                                {% elif entry.avatar == '9' %}
+                                    <img src="{% static 'avatar/ninja.jpg' %}" alt="Avatar 9" class="avatar">
+                                {% else %}
+                                    <img src="{% static 'avatar/default.jpg' %}" alt="Default Avatar" class="avatar">
+                                {% endif %}
+                            </div>
+                            <span>{{ entry.user__username }}</span>
+                            <span>Total Distance: {{ entry.total_distance }}km</span>
+                            <span>Total CarbonFootprint: {{ entry.total_carbon }}g</span>
+                            <span>Ratio: {{ entry.efficiency }} g/km</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No data available for your friends this week.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const globalButton = document.getElementById('globalButton');
+            const friendsButton = document.getElementById('friendsButton');
+            const globalLeaderboard = document.getElementById('globalLeaderboard');
+            const friendsLeaderboard = document.getElementById('friendsLeaderboard');
+
+            globalButton.addEventListener('click', function() {
+                globalLeaderboard.classList.add('active');
+                friendsLeaderboard.classList.remove('active');
+                globalButton.classList.add('active');
+                friendsButton.classList.remove('active');
+            });
+
+            friendsButton.addEventListener('click', function() {
+                globalLeaderboard.classList.remove('active');
+                friendsLeaderboard.classList.add('active');
+                globalButton.classList.remove('active');
+                friendsButton.classList.add('active');
+            });
+        });
+    </script>
 {% endblock %}
