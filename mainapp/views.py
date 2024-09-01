@@ -121,10 +121,14 @@ def mappage(request):
     total_distance = sum(item['total_distance'] for item in data)
     total_carbon_footprint = sum(item['total_carbon_footprint'] for item in data)
 
+    # Round the total values to two decimal places
+    total_distance = round(total_distance, 2)
+    total_carbon_footprint = round(total_carbon_footprint, 2)
+
     # Prepare data for pie charts
     modes_of_transport = [item['mode_of_transport'] for item in data]
-    total_distances = [item['total_distance'] for item in data]
-    total_carbon_footprints = [item['total_carbon_footprint'] for item in data]
+    total_distances = [round(item['total_distance'], 2) for item in data]
+    total_carbon_footprints = [round(item['total_carbon_footprint'], 2) for item in data]
 
     # Set colors for each mode of transport to ensure consistency between the two charts
     colors = [
@@ -138,23 +142,24 @@ def mappage(request):
         labels=modes_of_transport,
         values=total_distances,
         marker=dict(colors=colors),
-        showlegend=False
+        textinfo='label+percent',  # Show labels and percentages
+        showlegend=True
     )])
     distance_pie.update_layout(
         title={
             'text': "Distance (km)",
-            'x': 0.5,  # Center the title horizontally
-            'xanchor': 'center',  # Center the title horizontally
-            'y': 1.0,  # Position the title at the top
-            'yanchor': 'top',  # Align the title to the top
+            'x': 0.5,
+            'xanchor': 'center',
+            'y': 1.0,
+            'yanchor': 'top',
             'font': {
-                'size': 16,  # Adjust title font size as needed
-                'color': '#00563B'  # Dark green color
+                'size': 16,
+                'color': '#00563B'
             }
         },
-        margin=dict(t=40, b=0, l=0, r=0),  # Adjust margins to fit the title
-        height=400,  # Set height to ensure the title fits
-        width=400  # Set width as needed
+        margin=dict(t=40, b=0, l=0, r=0),
+        height=400,
+        width=400
     )
 
     # Create the carbon footprint pie chart
@@ -162,23 +167,24 @@ def mappage(request):
         labels=modes_of_transport,
         values=total_carbon_footprints,
         marker=dict(colors=colors),
-        showlegend=False
+        textinfo='label+percent',  # Show labels and percentages
+        showlegend=True
     )])
     carbon_footprint_pie.update_layout(
         title={
-            'text': "Distance (km)",
-            'x': 0.5,  # Center the title horizontally
-            'xanchor': 'center',  # Center the title horizontally
-            'y': 1.0,  # Position the title at the top
-            'yanchor': 'top',  # Align the title to the top
+            'text': "Carbon Footprint (kg CO2)",
+            'x': 0.5,
+            'xanchor': 'center',
+            'y': 1.0,
+            'yanchor': 'top',
             'font': {
-                'size': 16,  # Adjust title font size as needed
-                'color': '#00563B'  # Dark green color
+                'size': 16,
+                'color': '#00563B'
             }
         },
-        margin=dict(t=40, b=0, l=0, r=0),  # Adjust margins to fit the title
-        height=400,  # Set height to ensure the title fits
-        width=400  # Set width as needed
+        margin=dict(t=40, b=0, l=0, r=0),
+        height=400,
+        width=400
     )
 
     # Create the bar chart for average carbon footprint per meter
@@ -209,9 +215,17 @@ def mappage(request):
         last_week_total_distance, last_week_total_carbon_footprint = calculate_totals(last_week_data)
         week_before_last_total_distance, week_before_last_total_carbon_footprint = calculate_totals(week_before_last_data)
 
-        this_week_avg = (this_week_total_carbon_footprint ) / this_week_total_distance if this_week_total_distance != 0 else 0
-        last_week_avg = (last_week_total_carbon_footprint ) / last_week_total_distance if last_week_total_distance != 0 else 0
-        week_before_avg = (week_before_last_total_carbon_footprint ) / week_before_last_total_distance if week_before_last_total_distance != 0 else 0
+        # Round the totals to two decimal places
+        this_week_total_distance = round(this_week_total_distance, 2)
+        this_week_total_carbon_footprint = round(this_week_total_carbon_footprint, 2)
+        last_week_total_distance = round(last_week_total_distance, 2)
+        last_week_total_carbon_footprint = round(last_week_total_carbon_footprint, 2)
+        week_before_last_total_distance = round(week_before_last_total_distance, 2)
+        week_before_last_total_carbon_footprint = round(week_before_last_total_carbon_footprint, 2)
+
+        this_week_avg = round((this_week_total_carbon_footprint) / this_week_total_distance, 2) if this_week_total_distance != 0 else 0
+        last_week_avg = round((last_week_total_carbon_footprint) / last_week_total_distance, 2) if last_week_total_distance != 0 else 0
+        week_before_avg = round((week_before_last_total_carbon_footprint) / week_before_last_total_distance, 2) if week_before_last_total_distance != 0 else 0
     except ZeroDivisionError:
         this_week_avg = last_week_avg = week_before_avg = 0
 
@@ -224,7 +238,7 @@ def mappage(request):
         x=weeks,
         y=averages,
         marker_color='#1f77b4',
-        text=[f"{avg:.2f}" for avg in averages],
+        text=[f"{avg:.2f}" for avg in averages],  # Display average values on bars
         textposition='auto'
     )])
 
@@ -233,17 +247,17 @@ def mappage(request):
         width=400,
         margin=dict(t=50, b=50, l=0, r=0),
         title_text="Average CO2 per Meter of Travel (g/km)",
-        title_x=0.5,  # Center the title
-        paper_bgcolor='#E5F6DF',  # Light green background
-        plot_bgcolor='#E5F6DF',   # Light green background inside the plot
+        title_x=0.5,
+        paper_bgcolor='#E5F6DF',
+        plot_bgcolor='#E5F6DF',
         font=dict(
             family="Arial, sans-serif",
-            color='#00563B',      # Dark green text
+            color='#00563B',
             size=14
         ),
         title_font=dict(
             family="Arial, sans-serif",
-            color='#00563B',      # Dark green title text
+            color='#00563B',
             size=16
         )
     )
@@ -411,6 +425,8 @@ def get_weekly_leaderboard():
         user_id = entry['user__id']
         entry['avatar'] = avatar_dict.get(user_id, 'default.jpg')  # Use default if no avatar found
         # Round efficiency to 2 decimal places
+        entry['total_distance']= round(entry['total_distance'],2)
+        entry['total_carbon']= round(entry['total_carbon'],2)
         entry['efficiency'] = round(entry['efficiency'], 2)
 
     return {
@@ -457,10 +473,11 @@ def friend_leaderboards(user):
         user_id = entry['user__id']
         entry['avatar'] = avatar_dict.get(user_id, 'default.jpg')  # Use default if no avatar found
         # Round efficiency to 2 decimal places
+        entry['total_distance']= round(entry['total_distance'],2)
+        entry['total_carbon']= round(entry['total_carbon'],2)
         entry['efficiency'] = round(entry['efficiency'], 2)
 
     return friend_leaderboard
-
 
 @login_required(login_url='/login/')
 def leaderboards(request):
