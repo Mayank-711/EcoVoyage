@@ -121,14 +121,13 @@
 
 {% block content %}
     <div class="leaderboard-container">
-        <h2>Weekly Leaderboard - From {{ start_of_week|date:"F j, Y" }} to {{ end_of_week|date:"F j, Y" }}</h2> <!-- Show the current date -->
+        <h2>Weekly Leaderboard - From {{ start_of_week|date:"F j, Y" }} to {{ end_of_week|date:"F j, Y" }}</h2>
         {% if leaderboard %}
             <ul class="leaderboard-list">
                 {% for entry in leaderboard %}
                     <li class="leaderboard-entry">
-                        <span class="rank-counter">{{ forloop.counter }}.</span> <!-- Display the rank counter -->
+                        <span class="rank-counter">{{ forloop.counter }}.</span>
                         <div class="profile-info">
-                            <!-- Display the avatar based on the value in entry.avatar -->
                             {% if entry.avatar == '1' %}
                                 <img src="{% static 'avatar/kid.jpg' %}" alt="Avatar 1" class="avatar">
                             {% elif entry.avatar == '2' %}
@@ -160,6 +159,48 @@
             </ul>
         {% else %}
             <p>No data available for this week.</p>
+        {% endif %}
+    </div>
+
+    <div class="leaderboard-container">
+        <h2>Your Friends' Leaderboard - From {{ start_of_week|date:"F j, Y" }} to {{ end_of_week|date:"F j, Y" }}</h2>
+        {% if friends_leaderboard %}
+            <ul class="leaderboard-list">
+                {% for entry in friends_leaderboard %}
+                    <li class="leaderboard-entry">
+                        <span class="rank-counter">{{ forloop.counter }}.</span>
+                        <div class="profile-info">
+                            {% if entry.avatar == '1' %}
+                                <img src="{% static 'avatar/kid.jpg' %}" alt="Avatar 1" class="avatar">
+                            {% elif entry.avatar == '2' %}
+                                <img src="{% static 'avatar/men.jpg' %}" alt="Avatar 2" class="avatar">
+                            {% elif entry.avatar == '3' %}
+                                <img src="{% static 'avatar/girl1.jpg' %}" alt="Avatar 3" class="avatar">
+                            {% elif entry.avatar == '4' %}
+                                <img src="{% static 'avatar/girl2.jpg' %}" alt="Avatar 4" class="avatar">
+                            {% elif entry.avatar == '5' %}
+                                <img src="{% static 'avatar/girl3.jpg' %}" alt="Avatar 5" class="avatar">
+                            {% elif entry.avatar == '6' %}
+                                <img src="{% static 'avatar/girl4.jpg' %}" alt="Avatar 6" class="avatar">
+                            {% elif entry.avatar == '7' %}
+                                <img src="{% static 'avatar/boy1.jpg' %}" alt="Avatar 7" class="avatar">
+                            {% elif entry.avatar == '8' %}
+                                <img src="{% static 'avatar/boy2.jpg' %}" alt="Avatar 8" class="avatar">
+                            {% elif entry.avatar == '9' %}
+                                <img src="{% static 'avatar/ninja.jpg' %}" alt="Avatar 9" class="avatar">
+                            {% else %}
+                                <img src="{% static 'avatar/default.jpg' %}" alt="Default Avatar" class="avatar">
+                            {% endif %}
+                        </div>
+                        <span>{{ entry.user__username }}</span>
+                        <span>Total Distance: {{ entry.total_distance }}km</span>
+                        <span>Total CarbonFootprint: {{ entry.total_carbon }}g</span>
+                        <span>Ratio: {{ entry.efficiency }} g/km</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No data available for your friends this week.</p>
         {% endif %}
     </div>
 {% endblock %}

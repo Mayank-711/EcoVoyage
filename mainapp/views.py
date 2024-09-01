@@ -421,27 +421,64 @@ def get_weekly_leaderboard():
     }
 
 def friend_leaderboards(user):
+    today = datetime.now().date()
+
+    # Adjust week start and end dates for a week starting on Sunday and ending on Saturday
+    start_of_week = today - timedelta(days=today.weekday() + 1) if today.weekday() != 6 else today
+    end_of_week = start_of_week + timedelta(days=6)
+
+    # Get friends' IDs
     friends_from_user = Friendship.objects.filter(from_user=user, accepted=True).values_list('to_user', flat=True)
     friends_to_user = Friendship.objects.filter(to_user=user, accepted=True).values_list('from_user', flat=True)
     
-    # Combine both lists to get all friends
+    # Combine both lists to get all friends and include the user themselves
     friends_ids = set(friends_from_user) | set(friends_to_user)
-    
-    # Fetch friend profiles
-    friends = User.objects.filter(id__in=friends_ids).select_related('userprofile')
-    return friend_leaderboards
+    friends_ids.add(user.id)  # Include the logged-in user
+
+    # Filter logs for friends and the logged-in user
+    weekly_logs = TravelLog.objects.filter(user__id__in=friends_ids, date__gte=start_of_week, date__lte=end_of_week)
+
+    # Aggregate total distance and carbon footprint by friend
+    friend_leaderboard = weekly_logs.values('user__id', 'user__username').annotate(
+        total_distance=Sum('distance'),
+        total_carbon=Sum('carbon_footprint')
+    ).annotate(
+        efficiency=F('total_carbon') / F('total_distance')
+    ).order_by('efficiency')  # Order by efficiency (ascending for better efficiency)
+
+    # Get friend profiles with avatars
+    profiles = UserProfile.objects.filter(user__id__in=friends_ids).values('user__id', 'avatar')
+
+    # Create a dictionary for quick lookup of avatars by user id
+    avatar_dict = {profile['user__id']: profile['avatar'] for profile in profiles}
+
+    # Add avatar information and round efficiency to the friend leaderboard entries
+    for entry in friend_leaderboard:
+        user_id = entry['user__id']
+        entry['avatar'] = avatar_dict.get(user_id, 'default.jpg')  # Use default if no avatar found
+        # Round efficiency to 2 decimal places
+        entry['efficiency'] = round(entry['efficiency'], 2)
+
+    return friend_leaderboard
+
 
 @login_required(login_url='/login/')
 def leaderboards(request):
     now = datetime.now()
     user = request.user
-    friends_lboard_data = friend_leaderboards(user)
+
+    # Get the weekly leaderboard data
     leaderboard_data = get_weekly_leaderboard()
+
+    # Get friend leaderboards data
+    friends_lboard_data = friend_leaderboards(user)
+
     context = {
         'leaderboard': leaderboard_data['leaderboard'],
         'current_datetime': leaderboard_data['current_datetime'],
         'start_of_week': leaderboard_data['start_of_week'],
-        'end_of_week': leaderboard_data['end_of_week']
+        'end_of_week': leaderboard_data['end_of_week'],
+        'friends_leaderboard': friends_lboard_data  # Add friends leaderboard to context
     }
     return render(request, 'mainapp/leaderboards.html', context)
 
