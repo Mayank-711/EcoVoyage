@@ -181,7 +181,7 @@ body {
 /* Eco-Friendly Tips and Graphs Styles */
 #graph-container {
     margin: 20px auto;
-    max-width: 100%;  /* Ensure it matches the graph width */
+    max-width: 100%; /* Ensure it matches the graph width */
     background-color: #fff; /* White background */
     padding: 20px;
     border-radius: 10px;
@@ -195,7 +195,7 @@ body {
 }
 
 .graph-section {
-    flex: 1 1 30%; /* Adjust the width of each section */
+    flex: 1 1 25%; /* Adjust the width of each section */
     margin: 5px; /* Reduced space between sections */
     display: flex;
     flex-direction: column; /* Stack heading and graph vertically */
@@ -209,7 +209,7 @@ body {
 }
 
 #bar-chart-section {
-    flex: 1 1 35%; /* Adjust width to accommodate the bar chart */
+    flex: 1 1 30%; /* Adjust width to accommodate the bar chart */
     margin: 5px; /* Reduced space between sections */
 }
 
