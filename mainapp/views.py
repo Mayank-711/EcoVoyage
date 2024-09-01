@@ -383,6 +383,7 @@ def logtrip(request):
 
 def get_weekly_leaderboard():
     today = datetime.now().date()
+    now = datetime.now()
 
     # Adjust week start and end dates for a week starting on Sunday and ending on Saturday
     start_of_week = today - timedelta(days=today.weekday() + 1) if today.weekday() != 6 else today
@@ -392,18 +393,42 @@ def get_weekly_leaderboard():
     weekly_logs = TravelLog.objects.filter(date__gte=start_of_week, date__lte=end_of_week)
 
     # Aggregate total distance and carbon footprint by user
-    leaderboard = weekly_logs.values('user__username').annotate(
+    leaderboard = weekly_logs.values('user__id', 'user__username').annotate(
         total_distance=Sum('distance'),
         total_carbon=Sum('carbon_footprint')
     ).annotate(
         efficiency=F('total_carbon') / F('total_distance')
     ).order_by('efficiency')  # Order by efficiency (ascending for better efficiency)
 
-    return leaderboard
+    # Get all user profiles with avatars
+    profiles = UserProfile.objects.values('user__id', 'avatar')
+
+    # Create a dictionary for quick lookup of avatars by user id
+    avatar_dict = {profile['user__id']: profile['avatar'] for profile in profiles}
+
+    # Add avatar information and round efficiency to the leaderboard entries
+    for entry in leaderboard:
+        user_id = entry['user__id']
+        entry['avatar'] = avatar_dict.get(user_id, 'default.jpg')  # Use default if no avatar found
+        # Round efficiency to 2 decimal places
+        entry['efficiency'] = round(entry['efficiency'], 2)
+
+    return {
+        'leaderboard': leaderboard,
+        'current_datetime': now,
+        'start_of_week': start_of_week,
+        'end_of_week': end_of_week
+    }
 
 def leaderboards(request):
-    leaderboard = get_weekly_leaderboard()
-    context = {'leaderboard': leaderboard}
+    now = datetime.now()
+    leaderboard_data = get_weekly_leaderboard()
+    context = {
+        'leaderboard': leaderboard_data['leaderboard'],
+        'current_datetime': leaderboard_data['current_datetime'],
+        'start_of_week': leaderboard_data['start_of_week'],
+        'end_of_week': leaderboard_data['end_of_week']
+    }
     return render(request, 'mainapp/leaderboards.html', context)
 
 @login_required(login_url='/login/')
