@@ -12,6 +12,9 @@ from plotly.subplots import make_subplots
 from django.db.models import Sum,F
 from django.utils.safestring import mark_safe
 from authapp.models import UserProfile,Friendship,User
+import google.generativeai as genai
+import os
+from django.http import JsonResponse
 
 logger = logging.getLogger(__name__)
 
@@ -197,6 +200,7 @@ def mappage(request):
     this_week_data = TravelLog.objects.filter(user=user, date__range=[start_of_week, end_of_week]) \
         .values('mode_of_transport') \
         .annotate(total_distance=Sum('distance'), total_carbon_footprint=Sum('carbon_footprint'))
+
     last_week_data = TravelLog.objects.filter(user=user, date__range=[start_of_last_week, end_of_last_week]) \
         .values('mode_of_transport') \
         .annotate(total_distance=Sum('distance'), total_carbon_footprint=Sum('carbon_footprint'))
@@ -405,7 +409,6 @@ def get_weekly_leaderboard():
 
     # Filter logs from the start of the current week (Sunday) to the end of the week (Saturday)
     weekly_logs = TravelLog.objects.filter(date__gte=start_of_week, date__lte=end_of_week)
-
     # Aggregate total distance and carbon footprint by user
     leaderboard = weekly_logs.values('user__id', 'user__username').annotate(
         total_distance=Sum('distance'),
@@ -499,6 +502,98 @@ def leaderboards(request):
     }
     return render(request, 'mainapp/leaderboards.html', context)
 
+
+# Example Usage
 @login_required(login_url='/login/')
 def redeem(request):
     return render(request,'mainapp/redeem.html')
+
+
+
+API_KEY= "AIzaSyBHyMT19pyFQRAHG7D6grFJsdFBjvo1JeQ"
+# Set the API key as an environment variable
+os.environ["API_KEY"] = API_KEY
+genai.configure(api_key=os.environ["API_KEY"])
+model = genai.GenerativeModel("gemini-1.5-flash")
+
+def analyze_travel_logs(travel_logs):
+    short_distance_trips = []
+    long_distance_trips = []
+
+    for log in travel_logs:
+        distance = log['distance']  # Access distance from the dictionary
+        if distance < 2:  # Assuming distance is in kilometers
+            short_distance_trips.append(log)
+        else:
+            long_distance_trips.append(log)
+    print('Short Distance',short_distance_trips)
+    print('Long Distance',long_distance_trips)
+    return short_distance_trips, long_distance_trips
+
+def generate_eco_friendly_suggestions(short_distance_trips, long_distance_trips):
+    recommendations = []
+
+    # Recommendation for short-distance trips
+    if short_distance_trips:
+        prompt_short = ("It seems like you frequently use scooters, bikes, or cars for short distances. "
+                        "For trips less than 2 km, consider using more eco-friendly options such as walking or cycling. "
+                        "Here are the trips where walking or cycling would be a better choice: ")
+        prompt_short += ", ".join([f"{log['source_address']} to {log['destination_address']} ({log['distance']} km)" for log in short_distance_trips])
+        
+        recommendations.append(prompt_short)
+    
+    # Recommendation for long-distance trips
+    if long_distance_trips:
+        prompt_long = ("For longer distances, using public transport can significantly reduce your carbon footprint.Distance is in KM  "
+                       "If you are currently using scooters, bikes, or cars for long trips, consider switching to buses, trains, or carpooling. "
+                       "Here are the trips where public transport would be a more eco-friendly choice: ")
+        prompt_long += ", ".join([f"{log['source_address']} to {log['destination_address']} ({log['distance']} km)" for log in long_distance_trips])
+        
+        recommendations.append(prompt_long)
+    
+    return recommendations
+
+def get_eco_friendly_recommendations(travel_logs):
+    short_distance_trips, long_distance_trips = analyze_travel_logs(travel_logs)
+    
+    raw_recommendations = generate_eco_friendly_suggestions(short_distance_trips, long_distance_trips)
+    
+    # Use LLM to generate polished content
+    final_recommendations = []
+    for rec in raw_recommendations:
+        response = model.generate_content(f"Provide detailed eco-friendly travel advice: {rec}")
+        final_recommendations.append(response.text)
+    
+    return final_recommendations
+
+
+
+def get_personalized_recommendations(request):
+    user = request.user
+    today = datetime.now().date()
+    
+    start_of_week = today - timedelta(days=today.weekday() + 1) if today.weekday() != 6 else today
+    end_of_week = start_of_week + timedelta(days=6)
+
+    travel_logs = TravelLog.objects.filter(
+        date__gte=start_of_week, 
+        date__lte=end_of_week, 
+        user=user
+    ).values('source_address', 'destination_address', 'distance', 'date', 'mode_of_transport')
+
+    # Convert QuerySet to list of dicts for compatibility
+    travel_logs_list = list(travel_logs)
+
+    # Process travel logs
+    recommendations = get_eco_friendly_recommendations(travel_logs_list)
+    
+    # Beautify recommendations
+    beautified = []
+    for rec in recommendations:
+        rec = rec.replace("*", "<strong>").replace("\n", "</strong><br>").replace("</strong><br><strong>", "<br><strong>")
+        beautified.append(rec)
+    
+    return JsonResponse({'recommendations': beautified})
+
+def tips(request):
+    return render(request,'mainapp/tips.html')
