@@ -510,7 +510,7 @@ def redeem(request):
 
 
 
-API_KEY= "AIzaSyBHyMT19pyFQRAHG7D6grFJsdFBjvo1JeQ"
+API_KEY= ""
 # Set the API key as an environment variable
 os.environ["API_KEY"] = API_KEY
 genai.configure(api_key=os.environ["API_KEY"])
