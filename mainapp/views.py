@@ -15,8 +15,17 @@ from authapp.models import UserProfile,Friendship,User
 import google.generativeai as genai
 import os
 from django.http import JsonResponse
+from django.conf import settings
 
 logger = logging.getLogger(__name__)
+
+API_KEY_GEMINI =settings.GEMINI
+OLAMAPS_API = settings.OLAMAPS
+
+# Set the API key as an environment variable
+os.environ["API_KEY"] = API_KEY_GEMINI
+genai.configure(api_key=os.environ["API_KEY"])
+model = genai.GenerativeModel("gemini-1.5-flash")
 
 @csrf_exempt
 @login_required(login_url='/login/')
@@ -32,7 +41,7 @@ def process_form(request):
         dest_lng = request.POST.get('dest_lng')
         source_add = request.POST.get('source-add')
         dest_add = request.POST.get('destination-add')
-        
+
         if source_lat and source_lng and dest_lat and dest_lng:
             try:
                 params = {
@@ -44,7 +53,7 @@ def process_form(request):
                     'overview': 'full',
                     'language': 'en',
                     'traffic_metadata': 'true',
-                    'api_key': 'upIsbo0X7RjH2SfHjy2eYpm8TWdynT6vFDCpA85y'
+                    'api_key': OLAMAPS_API
                 }
                 response = requests.post('https://api.olamaps.io/routing/v1/directions', params=params)
 
@@ -91,12 +100,12 @@ def process_form(request):
                         duration=total_duration,
                         carbon_footprint=carbon_footprint_perkm
                     )
-                    return redirect('mappage')
-                else:
-                    return render(request, 'mainapp/mappage.html', {'error': 'Error fetching data from API'})
             except Exception as e:
-                return render(request, 'mainapp/mappage.html', {'error': str(e)})
+                # Log the exception (optional)
+                print(f"Error occurred: {e}")
             
+        # After success or failure, always redirect to 'mappage'
+        return redirect('mappage')
 
 @login_required(login_url='/login/')
 def mappage(request):
@@ -277,7 +286,8 @@ def mappage(request):
         'carbon_footprint_pie': mark_safe(carbon_footprint_pie_html), 
         'avg_graph': mark_safe(avg_plot_html),
         'w1total_distance': this_week_total_distance,
-        'w1total_co2': this_week_total_carbon_footprint
+        'w1total_co2': this_week_total_carbon_footprint,
+        'OLAMAPS_API':OLAMAPS_API,
     })
 
 
@@ -312,7 +322,7 @@ def logtrip(request):
             'overview': 'full',
             'language': 'en',
             'traffic_metadata': 'true',
-            'api_key': 'upIsbo0X7RjH2SfHjy2eYpm8TWdynT6vFDCpA85y'
+            'api_key': OLAMAPS_API
         }
 
         # Make the API request
@@ -395,7 +405,8 @@ def logtrip(request):
 
     # Send data to the frontend
     context = {
-        'travellog': travellog
+        'travellog': travellog,
+        'OLAMAPS_API':OLAMAPS_API
     }
     return render(request, 'mainapp/LogTrip.html', context)
 
@@ -436,7 +447,7 @@ def get_weekly_leaderboard():
         'leaderboard': leaderboard,
         'current_datetime': now,
         'start_of_week': start_of_week,
-        'end_of_week': end_of_week
+        'end_of_week': end_of_week,
     }
 
 def friend_leaderboards(user):
@@ -509,12 +520,6 @@ def redeem(request):
     return render(request,'mainapp/redeem.html')
 
 
-
-API_KEY= ""
-# Set the API key as an environment variable
-os.environ["API_KEY"] = API_KEY
-genai.configure(api_key=os.environ["API_KEY"])
-model = genai.GenerativeModel("gemini-1.5-flash")
 
 def analyze_travel_logs(travel_logs):
     short_distance_trips = []

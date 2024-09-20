@@ -80,6 +80,7 @@
 </div>
 {% endblock %}
 {% block extra_scripts %}
-<script src="{% static 'js/logtrip.js'%}">
+<script>const OLAMAPS_API = "{{ OLAMAPS_API }}";
 </script>
+<script src="{% static 'js/logtrip.js'%}"></script>
 {% endblock %}

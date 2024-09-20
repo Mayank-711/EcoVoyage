@@ -10,7 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+import os
 from pathlib import Path
+from dotenv import load_dotenv
+# Load environment variables from .env file
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -137,3 +141,6 @@ EMAIL_HOST_USER = 'abhishekkumbhar005@gmail.com'
 EMAIL_HOST_PASSWORD = 'xkyw xebh fyae fbjh'
 MESSAGE_STORAGE = "django.contrib.messages.storage.cookie.CookieStorage"
 
+
+GEMINI = os.getenv("GEMINI", default="")
+OLAMAPS = os.getenv("OLAMAPS", default="")

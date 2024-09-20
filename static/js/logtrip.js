@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const searchText = input.value.trim();
         if (searchText.length > 2) {
             try {
-                const response = await fetch(`https://api.olamaps.io/places/v1/autocomplete?input=${encodeURIComponent(searchText)}&api_key=upIsbo0X7RjH2SfHjy2eYpm8TWdynT6vFDCpA85y`);
+                const response = await fetch(`https://api.olamaps.io/places/v1/autocomplete?input=${encodeURIComponent(searchText)}&api_key=${OLAMAPS_API}`);
                 const data = await response.json();
                 const predictions = data.predictions || [];
                 resultsContainer.innerHTML = '';
