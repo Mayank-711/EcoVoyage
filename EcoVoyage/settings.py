@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 EXTERNAL_APPS = [
     'mainapp',
     'authapp',
+    'adminside',
 ]
 INSTALLED_APPS= INSTALLED_APPS + EXTERNAL_APPS
 

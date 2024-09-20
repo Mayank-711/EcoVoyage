@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from authapp import views as aviews
 from mainapp import views as mviews
+from adminside import views as kviews
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -52,4 +53,9 @@ mainappurl = [
     path('get-personalized-recommendations/', mviews.get_personalized_recommendations, name='get_personalized_recommendations'),
 ]
 
-urlpatterns = urlpatterns + authappurl + mainappurl
+adminurl =[
+path('admin_login/', kviews.adminlogin, name='adminlogin'),
+path('view_feedback/', kviews.view_feedback, name='view_feedback'),
+path('add_store/', kviews.add_store, name='addstore'),
+]
+urlpatterns = urlpatterns + authappurl + mainappurl + adminurl
