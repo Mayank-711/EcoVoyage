@@ -26,3 +26,7 @@ def view_feedback(request):
 
 def add_store(request):
     return render(request,'adminapp/addstore.html')
+
+def admin_logout(request):
+    request.session.flush()  # Clear the session data
+    return redirect('adminlogin')  # Redirect to the admin login page

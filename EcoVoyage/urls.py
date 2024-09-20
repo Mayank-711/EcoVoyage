@@ -57,5 +57,6 @@ adminurl =[
 path('admin_login/', kviews.adminlogin, name='adminlogin'),
 path('view_feedback/', kviews.view_feedback, name='view_feedback'),
 path('add_store/', kviews.add_store, name='addstore'),
+path('admin_logout',kviews.admin_logout,name='adlogout')
 ]
 urlpatterns = urlpatterns + authappurl + mainappurl + adminurl
