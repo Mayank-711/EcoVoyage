@@ -144,3 +144,16 @@ a:hover {
     padding: 10px 0;
     color: #00563B;
 }
+
+.admin-login-button {
+    background-color: #E5F6DF; /* Adjust color as needed */
+    color: forestgreen;
+    padding: 8px 12px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.admin-login-button:hover {
+    background-color: #4CAF50; /* Darker shade on hover */
+}
