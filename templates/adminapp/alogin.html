@@ -7,8 +7,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Login Panel</title>
   <style>
-    body{
-        background-image: url("{%static 'images/login.jpg'%}");
+    body {
+        background-image: url("{% static 'images/login.jpg' %}");
     }
   </style>
   <link rel="stylesheet" href="{% static 'css/alogin.css' %}">
@@ -17,15 +17,16 @@
   
   <div class="container">
     <div class="myform">
-      <form>
+      <form method="POST" action="{% url 'adminlogin' %}">
+        {% csrf_token %}
         <h2>ADMIN LOGIN</h2>
-        <input type="text" placeholder="Admin Name">
-        <input type="password" placeholder="Password">
+        <input type="text" placeholder="Admin Name" name="username" required>
+        <input type="password" placeholder="Password" name="password" required>
         <button type="submit">LOGIN</button>
       </form>
     </div>
     <div class="image">
-      <img src="{%static 'images/adlogin.jpg'%}">
+      <img src="{% static 'images/adlogin.jpg' %}">
     </div>
   </div>
 

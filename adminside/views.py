@@ -1,8 +1,25 @@
-from django.shortcuts import render
+from django.contrib.auth import authenticate, login
+from django.shortcuts import render, redirect
 
-# Create your views here.
+ADMIN_CREDENTIALS = {'admin': 'admin123'}  # Change this to match the username you're checking
+
 def adminlogin(request):
-    return render(request,'adminapp/alogin.html')
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        # Check if the username exists and the password matches
+        if username in ADMIN_CREDENTIALS and ADMIN_CREDENTIALS[username] == password:
+            # Set session variable
+            request.session['admin_logged_in'] = True  # Optional: Track admin login status
+            return redirect('view_feedback')  # Redirect to admin dashboard
+        else:
+            return redirect('adminlogin')  # Redirect back if credentials are incorrect
+
+    return render(request, 'adminapp/alogin.html')
+
+
+
 
 def view_feedback(request):
     return render(request,'adminapp/feedback.html')
