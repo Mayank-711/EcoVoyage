@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from .models import Feedback
+from authapp.models import UserProfile
 
 ADMIN_CREDENTIALS = {'admin': 'admin123'}  # Change this to match the username you're checking
 
@@ -23,8 +24,20 @@ def adminlogin(request):
 
 
 def view_feedback(request):
-    feedbacks = Feedback.objects.all().order_by('-submitted_at')[:30]
+    feedbacks = Feedback.objects.all().order_by('-submitted_at')
+
+    names = feedbacks.values_list('name', flat=True).distinct()
+
+    profiles = UserProfile.objects.filter(user__username__in=names).values('user__username', 'avatar')
+
+    avatar_dict = {profile['user__username']: profile['avatar'] for profile in profiles}
+
+    for feedback in feedbacks:
+        feedback.avatar = avatar_dict.get(feedback.name, 'default.jpg')  # Use 'default.jpg' if no avatar found
+    feedbacks = feedbacks[:30]
     return render(request, 'adminapp/feedback.html', {'feedbacks': feedbacks})
+
+
 
 def add_store(request):
     return render(request,'adminapp/addstore.html')

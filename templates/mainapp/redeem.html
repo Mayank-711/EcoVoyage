@@ -117,9 +117,6 @@
             <p>We value your feedback. Please let us know how we can improve your experience!</p>
             <form action="{% url 'submit_feedback' %}" method="post">
                 {% csrf_token %}
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" placeholder="Your name" required>
-
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" placeholder="Your email" required>
 

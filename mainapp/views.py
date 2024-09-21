@@ -617,10 +617,11 @@ def submit_feedback(request):
         form = FeedbackForm(request.POST)
         if form.is_valid():
             feedback = form.save(commit=False)
-            # Set the submitted_at field to the current time in UTC
-            feedback.submitted_at = timezone.now()
+            # Use the logged-in user's username or user object (if linking through a ForeignKey)
+            feedback.name = request.user  # Assuming the Feedback model has a ForeignKey to User
+            feedback.submitted_at = timezone.now()  # Save current UTC time
             feedback.save()
-            return redirect('redeem')
+            return redirect('redeem')  # Redirect to the redeem page
     else:
         form = FeedbackForm()
 
