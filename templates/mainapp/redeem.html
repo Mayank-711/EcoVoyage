@@ -1,17 +1,134 @@
 {% extends 'mainapp/base.html' %}
-{%load static%}
+{% load static %}
 {% block title %}Redeem{% endblock %}
 
 {% block extra_head %}
     <!-- Add any additional CSS or JS files specific to this page -->
     <link rel="stylesheet" href="{% static 'css/redeem.css' %}">
+    <style>
+        /* EcoVoyage Color Theme */
+        :root {
+            --primary-color: #00563B;  /* Dark Green */
+            --secondary-color: #E5F6DF;  /* Light Green */
+            --accent-color: #ffffff;  /* White background */
+            --text-color: #333;  /* Text color */
+            --border-color: #ccc;  /* Border for inputs */
+            --hover-color: #27ae60;  /* Darker green on hover */
+        }
+
+        /* Style for the feedback section container */
+        .feedback-container {
+            display: flex;
+            justify-content: flex-end;  /* Moves the feedback section to the right */
+            padding: 30px;
+        }
+
+        .feedback-section {
+            background-color: var(--primary-color);  /* Dark Green container */
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            max-width: 300px;  /* Reduced width */
+            width: 100%;
+            animation: fadeInRight 1s ease-in-out;  /* Animation for smooth entrance */
+            color: var(--accent-color);  /* White text for readability */
+        }
+
+        /* Styling for form inputs */
+        .feedback-section input[type="text"],
+        .feedback-section input[type="email"],
+        .feedback-section textarea {
+            width: 95%;
+            padding: 12px;
+            margin: 10px 0;
+            margin-right: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .feedback-section input:focus,
+        .feedback-section textarea:focus {
+            border-color: var(--accent-color);  /* White border on focus */
+            outline: none;
+        }
+
+        /* Submit button styling with EcoVoyage colors */
+        .feedback-section button.submit-btn {
+            background-color: var(--accent-color);  /* White button */
+            color: var(--primary-color);  /* Dark Green text */
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .feedback-section button.submit-btn:hover {
+            background-color: var(--hover-color);  /* Darker green on hover */
+            transform: scale(1.05);  /* Slight grow effect on hover */
+        }
+
+        /* Fade in animation from the right */
+        @keyframes fadeInRight {
+            0% {
+                opacity: 0;
+                transform: translateX(50%);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Optional styling for headers */
+        .feedback-section h3 {
+            font-size: 24px;
+            color: var(--accent-color);  /* White text */
+            text-align: center;
+        }
+
+        .feedback-section p {
+            color: var(--accent-color);  /* White text */
+            font-size: 14px;
+            text-align: center;
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            .feedback-container {
+                justify-content: center;  /* Center the form on smaller screens */
+                padding: 20px;
+            }
+
+            .feedback-section {
+                max-width: 100%;  /* Make the form width 100% on smaller screens */
+            }
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
-    <div class="content-container">
-        <h2>Welcome to the Redeem Page</h2>
-        <p>This is where your new page content goes.</p>
-        <!-- Add more content or HTML elements here -->
+    <div class="feedback-container">
+        <div class="feedback-section">
+            <h3>Feedback Form</h3>
+            <p>We value your feedback. Please let us know how we can improve your experience!</p>
+            <form action="{% url 'submit_feedback' %}" method="post">
+                {% csrf_token %}
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" placeholder="Your name" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Your email" required>
+
+                <label for="feedback">Feedback:</label>
+                <textarea id="feedback" name="feedback" placeholder="Your feedback" rows="4" required></textarea>
+
+                <button type="submit" class="submit-btn">Submit Feedback</button>
+            </form>
+        </div>
     </div>
 {% endblock %}
 

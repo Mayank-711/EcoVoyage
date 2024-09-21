@@ -16,6 +16,9 @@ import google.generativeai as genai
 import os
 from django.http import JsonResponse
 from django.conf import settings
+from adminside.forms import FeedbackForm
+from adminside.models import Feedback
+from django.utils import timezone
 
 logger = logging.getLogger(__name__)
 
@@ -515,9 +518,7 @@ def leaderboards(request):
 
 
 # Example Usage
-@login_required(login_url='/login/')
-def redeem(request):
-    return render(request,'mainapp/redeem.html')
+
 
 
 
@@ -602,3 +603,25 @@ def get_personalized_recommendations(request):
 
 def tips(request):
     return render(request,'mainapp/tips.html')
+
+
+
+@login_required(login_url='/login/')
+def redeem(request):
+
+    return render(request,'mainapp/redeem.html')
+
+
+def submit_feedback(request):
+    if request.method == 'POST':
+        form = FeedbackForm(request.POST)
+        if form.is_valid():
+            feedback = form.save(commit=False)
+            # Set the submitted_at field to the current time in UTC
+            feedback.submitted_at = timezone.now()
+            feedback.save()
+            return redirect('redeem')
+    else:
+        form = FeedbackForm()
+
+    return render(request, 'mainapp/redeem.html', {'form': form})

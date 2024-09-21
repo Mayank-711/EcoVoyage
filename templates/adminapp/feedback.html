@@ -1,12 +1,26 @@
 {% extends "adminapp/base.html" %}
-
-{% block title %}EcoVoyage ADMIN{% endblock %}
-{% block extra_head %}{% endblock %}
+{% load static %}
+{% block title %}EcoVoyage ADMIN - Feedback{% endblock %}
+{% block extra_head %}
+<link href="{% static 'css/feedback.css'%}" rel="stylesheet">
+{% endblock %}
 
 {% block content %}
-
-FEEDBACK
-<!-- Add more content here -->
+    <h2>User's Insights</h2>
+    <div class="feedback-container">
+        {% for feedback in feedbacks %}
+            <div class="feedback-card">
+                <div class="feedback-name">{{ feedback.name }}</div>
+                <div class="feedback-email">{{ feedback.email }}</div>
+                <div class="feedback-message">{{ feedback.feedback }}</div>
+                <div class="feedback-time">{{ feedback.submitted_at }}</div>
+            </div>
+        {% empty %}
+            <div class="feedback-card">
+                <div>No feedback found.</div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}
 
 {% block extra_scripts %}

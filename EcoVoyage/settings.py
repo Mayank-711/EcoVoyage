@@ -145,3 +145,6 @@ MESSAGE_STORAGE = "django.contrib.messages.storage.cookie.CookieStorage"
 
 GEMINI = os.getenv("GEMINI", default="")
 OLAMAPS = os.getenv("OLAMAPS", default="")
+
+TIME_ZONE = 'Asia/Kolkata'
+USE_TZ = True

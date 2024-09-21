@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
+from .models import Feedback
 
 ADMIN_CREDENTIALS = {'admin': 'admin123'}  # Change this to match the username you're checking
 
@@ -22,7 +23,8 @@ def adminlogin(request):
 
 
 def view_feedback(request):
-    return render(request,'adminapp/feedback.html')
+    feedbacks = Feedback.objects.all().order_by('-submitted_at')[:30]
+    return render(request, 'adminapp/feedback.html', {'feedbacks': feedbacks})
 
 def add_store(request):
     return render(request,'adminapp/addstore.html')
