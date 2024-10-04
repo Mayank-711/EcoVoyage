@@ -1,14 +1,15 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EcoVoyage</title>
-    
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    
+
     <!-- Custom CSS -->
     <style>
         /* Green Theme */
@@ -18,6 +19,8 @@
             --green-accent: #27AE60;
             --text-color: #E5F6DF;
             --highlight-text: #FAFAFA;
+            --card-bg: #FFFFFF;
+            --card-border: #A9DFBF;
         }
 
         /* Body and Global Styling */
@@ -40,18 +43,18 @@
 
         .navbar-brand {
             color: var(--text-color);
-            font-size: 3rem; /* Increased text size */
-            font-weight: bolder; /* Bolder text */
-            margin-left: 40px; /* Shift brand to the right by 40px */
+            font-size: 3rem;
+            font-weight: bolder;
+            margin-left: 40px;
         }
 
         .navbar-nav .nav-link {
             color: var(--text-color);
-            font-weight: 600; /* Slightly bolder text */
-            font-size: 1.5rem; /* Increased text size */
+            font-weight: 600;
+            font-size: 1.5rem;
             margin-right: 20px;
             transition: color 0.3s ease;
-            text-decoration: none; /* Remove underline */
+            text-decoration: none;
         }
 
         .navbar-nav .nav-link:hover {
@@ -74,30 +77,30 @@
         /* Text Above Video */
         .overlay-text {
             position: absolute;
-            top: calc(30% + 50px); /* Moved text down by 50px */
+            top: calc(30% + 50px);
             left: 50%;
             transform: translate(-50%, -50%);
             color: var(--highlight-text);
-            font-size: 4rem; /* Increased text size */
+            font-size: 4rem;
             text-align: center;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-            max-width: 1500px; /* Adjusted max-width if needed */
-            white-space: nowrap; /* Prevent text from wrapping */
-            overflow: hidden; /* Hide overflow if it exceeds the container */
-            text-overflow: ellipsis; /* Optionally, add ellipsis if the text is too long */
+            max-width: 1500px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         /* New Subtext Styling */
         .welcome-text {
-            font-size: 2.5rem; /* Adjust size as needed */
+            font-size: 2.5rem;
             color: var(--highlight-text);
             text-align: center;
-            margin-top: 10px; /* Spacing below the main text */
+            margin-top: 10px;
         }
 
         /* Sub-Text Styling */
         .sub-text {
-            font-size: 2rem; /* Increased text size */
+            font-size: 2rem;
             color: var(--green-light);
             margin-top: 10px;
         }
@@ -105,23 +108,22 @@
         /* Button Styling */
         .app-button {
             position: absolute;
-            top: calc(50% + 50px); /* Center vertically with the new position */
-            left: 50%; /* Center horizontally */
+            top: calc(50% + 50px);
+            left: 50%;
             transform: translate(-50%, -50%);
             background-color: var(--green-accent);
             color: var(--highlight-text);
-            font-size: 1.5rem; /* Increased button text size */
-            padding: 15px 30px; /* Adjusted padding for better appearance */
+            font-size: 1.5rem;
+            padding: 15px 30px;
             border: none;
             border-radius: 5px;
-            transition: background-color 0.3s ease; /* Removed transform on hover */
-            text-decoration: none; /* Remove underline */
-            text-align: center; /* Center text */
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            text-align: center;
         }
 
         .app-button:hover {
             background-color: var(--green-primary);
-            /* Removed scaling on hover to prevent movement */
         }
 
         /* Main Content Styling */
@@ -131,25 +133,78 @@
             text-align: center;
         }
 
-        .section h2 {
+        /* Eco-Friendly Importance Section Header Styling */
+        .section h1 {
             color: var(--green-primary);
             margin-bottom: 20px;
+            font-size: 2.5rem; /* Font size for the main header */
+            font-weight: bold; /* Bold font weight */
+            text-align: center; /* Center align the header */
+        }
+
+        /* Eco-Friendly Importance Section Paragraph Styling */
+        .section p {
+            color: #555; /* Darker text color for contrast */
+            font-size: 1.2rem; /* Slightly larger font size for readability */
+            line-height: 1.6; /* Increased line height for better spacing */
+            max-width: 800px; /* Max width for paragraph */
+            margin: 0 auto; /* Center the paragraph */
+            padding: 0 20px; /* Padding for left and right */
         }
 
         /* Cards */
         .card {
-            background-color: var(--green-light);
-            border: none;
-            transition: transform 0.3s, box-shadow 0.3s;
+            background-color: var(--card-bg);
+            border: 2px solid var(--card-border);
+            border-radius: 20px; /* Increased curvature */
+            transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+            overflow: hidden; /* Ensures the image corners are curved */
+            text-align: center; /* Align text to the center */
+            margin: 20px 0;
+            margin-right: 30px; /* Margin between cards */
         }
 
         .card:hover {
             transform: scale(1.05);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            background-color: var(--green-accent);
+        }
+
+        .card img {
+            height: 250px; /* Increased image height */
+            width: 100%; /* Ensure image fills the card width */
+            object-fit: cover;
+            border-top-left-radius: 20px; /* Match card radius */
+            border-top-right-radius: 20px; /* Match card radius */
         }
 
         .card h5 {
             color: var(--green-primary);
+            font-weight: bold;
+            margin-bottom: 15px; /* Added space between heading and content */
+        }
+
+        .card p {
+            color: #555;
+            font-size: 1.1rem;
+        }
+
+        .row {
+            justify-content: center; /* Center the cards */
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Footer Styling */
@@ -161,13 +216,15 @@
         }
     </style>
 </head>
+
 <body>
 
     <!-- Navbar (Transparent, Inside Video) -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">EcoVoyage</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -176,7 +233,7 @@
                         <a class="nav-link" href="#about">About Us</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#eco-importance">Eco-Friendly Importance</a>
+                        <a class="nav-link" href="#eco-importance">Why-EcoVoyage</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'login' %}">Login</a>
@@ -190,7 +247,7 @@
     <section class="video-container">
         <div class="overlay-text">
             <div>Small steps on your journey, big steps for the planet.</div>
-            <div class="welcome-text">Welcome to EcoVoyage!!</div> <!-- New welcome subtext -->
+            <div class="welcome-text">Welcome to EcoVoyage!!</div>
         </div>
         <video autoplay muted loop>
             <source src="{% static 'videos/LandingPage.mp4' %}" type="video/mp4">
@@ -201,67 +258,46 @@
 
     <!-- Eco-Friendly Importance Section -->
     <section id="eco-importance" class="section">
-        <h2>Eco-Friendly Importance</h2>
         <div class="container">
             <div class="row">
-                <div class="col-md-4 mb-4">
-                    <div class="card p-3">
+                <div class="col-12">
+                    <h1>Join the EcoVoyage Movement!</h1>
+                    <p>Together, we can make a difference in the world through eco-friendly travel. Join us and take action today! Explore our platform for more tips and strategies.</p>
+                </div>
+                <div class="col-md-4 mb-4 d-flex"> <!-- Added d-flex -->
+                    <div class="card flex-fill p-3"> <!-- Added flex-fill -->
+                        <img src="{% static 'images/reduceco2.jpg' %}" class="card-img-top" alt="Reducing Carbon Footprint">
                         <h5>Reducing Carbon Footprint</h5>
-                        <p>Eco-friendly travel helps reduce your carbon footprint, conserving the environment for future generations.</p>
+                        <p>Eco-friendly travel helps reduce your carbon footprint, conserving the environment for future generations. By making conscious choices, you contribute to a healthier planet.</p>
                     </div>
                 </div>
-                <div class="col-md-4 mb-4">
-                    <div class="card p-3">
+                <div class="col-md-4 mb-4 d-flex"> <!-- Added d-flex -->
+                    <div class="card flex-fill p-3"> <!-- Added flex-fill -->
+                        <img src="{% static 'images/prenatre.jpeg' %}" class="card-img-top" alt="Preserving Natural Resources">
                         <h5>Preserving Natural Resources</h5>
-                        <p>By traveling sustainably, you contribute to the preservation of natural resources and promote biodiversity.</p>
+                        <p>Eco-friendly choices help preserve our natural resources, ensuring sustainability for years to come. Choosing public transport or biking can make a big difference.</p>
                     </div>
                 </div>
-                <div class="col-md-4 mb-4">
-                    <div class="card p-3">
-                        <h5>Promoting Local Economies</h5>
-                        <p>Eco-tourism supports local economies and helps communities thrive without exploiting their natural surroundings.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Us Section -->
-    <section id="about" class="section">
-        <h2>About Us</h2>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4 mb-4">
-                    <div class="card p-3">
-                        <h5>Our Mission</h5>
-                        <p>EcoVoyage aims to make sustainable travel accessible and enjoyable for everyone.</p>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="card p-3">
-                        <h5>Our Vision</h5>
-                        <p>We envision a world where travel and sustainability go hand in hand.</p>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="card p-3">
-                        <h5>Our Values</h5>
-                        <p>We value sustainability, community, and responsibility in every journey.</p>
+                <div class="col-md-4 mb-4 d-flex"> <!-- Added d-flex -->
+                    <div class="card flex-fill p-3"> <!-- Added flex-fill -->
+                        <img src="{% static 'images/enhtraex.jpeg' %}" class="card-img-top" alt="Enhancing Travel Experience">
+                        <h5>Enhancing Travel Experience</h5>
+                        <p>By opting for eco-friendly options, you often discover hidden gems and unique experiences that traditional travel may overlook. Go green and explore!</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+    
 
-    <!-- Footer Section -->
+    <!-- Footer -->
     <footer class="footer">
-        <div class="container">
-            <p>&copy; 2024 EcoVoyage. All rights reserved.</p>
-        </div>
+        <p>&copy; 2024 EcoVoyage. All rights reserved.</p>
     </footer>
 
-    <!-- Bootstrap JS -->
+    <!-- Bootstrap JS (optional) -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 </body>
+
 </html>
