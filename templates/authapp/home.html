@@ -214,14 +214,14 @@
         }
         .about-us {
             display: flex;
-            align-items: center;
-            justify-content: center;
+            /* align-items: center;
+            justify-content: center; */
             margin-top: 60px;
+            height:600px;
         }
-
         .logo-circle {
-            width: 150px;
-            height: 150px;
+            width: 300px;
+            height: 300px;
             border-radius: 50%;
             overflow: hidden;
             display: flex;
@@ -230,12 +230,15 @@
             background-color: var(--green-accent);
             margin-right: 40px;
             background-color: white;
+            margin-left: 50px;
+            margin-bottom: 50px;
+            margin-top: 200px;
         }
 
         .logo-circle img {
             width: 100%;
             height: auto;
-            mix-blend-mode:multiply;
+            mix-blend-mode: multiply;
         }
 
         .about-text {
@@ -244,10 +247,12 @@
 
         .about-text h3 {
             color: var(--green-primary);
+            font-size: 2rem; /* Increased size */
         }
 
         .about-text p {
             color: #555;
+            font-size: 1.2rem; /* Increased size for better readability */
         }
     </style>
 </head>
@@ -330,7 +335,9 @@
         </div>
         <div class="about-text">
             <h3>About Us</h3>
-            <p>EcoVoyage is dedicated to promoting sustainable travel options. We provide users with tools and information to make eco-conscious choices, minimizing their environmental impact while enjoying their journeys.</p>
+            <p>EcoVoyage is dedicated to promoting sustainable travel options.<br>
+                We provide users with tools and information to make eco-conscious choices.<br>
+                Minimizing their environmental impact while enjoying their journeys.</p>
         </div>
     </div>
 
