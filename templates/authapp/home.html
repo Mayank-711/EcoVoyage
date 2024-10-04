@@ -212,6 +212,43 @@
             text-align: center;
             padding: 15px;
         }
+        .about-us {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 60px;
+        }
+
+        .logo-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--green-accent);
+            margin-right: 40px;
+            background-color: white;
+        }
+
+        .logo-circle img {
+            width: 100%;
+            height: auto;
+            mix-blend-mode:multiply;
+        }
+
+        .about-text {
+            text-align: left;
+        }
+
+        .about-text h3 {
+            color: var(--green-primary);
+        }
+
+        .about-text p {
+            color: #555;
+        }
     </style>
 </head>
 
@@ -287,9 +324,19 @@
         </div>
     </section>
 
+    <div class="about-us" id="about">
+        <div class="logo-circle">
+            <img src="{% static 'images/logo.png' %}" alt="EcoVoyage Logo">
+        </div>
+        <div class="about-text">
+            <h3>About Us</h3>
+            <p>EcoVoyage is dedicated to promoting sustainable travel options. We provide users with tools and information to make eco-conscious choices, minimizing their environmental impact while enjoying their journeys.</p>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="footer">
-        <p>&copy; 2024 EcoVoyage. All Rights Reserved.</p>
+        <p>&copy; 2024 EcoVoyage. All rights reserved.</p>
     </footer>
 
     <!-- Bootstrap JS -->
