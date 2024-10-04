@@ -7,6 +7,7 @@ class UserProfile(models.Model):
     pincode = models.CharField(max_length=30, blank=True, null=True)
     contact = models.IntegerField(blank=True,null=True)
     avatar = models.CharField(max_length=1000, blank=True, null=True)
+    coins = models.IntegerField(default=0)
 
     def __str__(self):
         return self.user.username

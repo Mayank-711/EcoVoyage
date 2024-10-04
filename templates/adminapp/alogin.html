@@ -1,32 +1,33 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  {% load static %}
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Login Panel</title>
-  <style>
-    body {
-        background-image: url("{% static 'images/login.jpg' %}");
-    }
-  </style>
   <link rel="stylesheet" href="{% static 'css/alogin.css' %}">
 </head>
+<style>
+  body {
+    background-image: url("{% static 'images/login.jpg' %}");
+}
+</style>
 <body>
-  
+
   <div class="container">
     <div class="myform">
       <form method="POST" action="{% url 'adminlogin' %}">
         {% csrf_token %}
         <h2>ADMIN LOGIN</h2>
-        <input type="text" placeholder="Admin Name" name="username" required>
+        <input type="text" placeholder="Username" name="username" required>
         <input type="password" placeholder="Password" name="password" required>
         <button type="submit">LOGIN</button>
+        <p>Back to Login <a href="{% url 'login' %}">Log In</a></p>
       </form>
     </div>
     <div class="image">
-      <img src="{% static 'images/adlogin.jpg' %}">
+      <img src="{% static 'images/adlogin.jpg' %}" alt="Admin Login Image">
     </div>
   </div>
 

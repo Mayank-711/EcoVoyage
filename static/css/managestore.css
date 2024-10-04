@@ -1,0 +1,226 @@
+/* Container Styling */
+.container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading Styling */
+h2 {
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    color: #00563B;
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* Card Styles */
+.card {
+    background-color: white;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 15px 0;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: row; /* Row layout for image and text */
+    align-items: center;
+    justify-content: space-between; /* Distribute space between text and image */
+    position: relative; /* Add relative positioning */
+    transition: box-shadow 0.3s ease; /* Smooth hover effect */
+}
+
+/* Hover effect for cards */
+.card:hover {
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.15); /* Slightly stronger shadow on hover */
+}
+
+/* Text in Cards */
+.card-content {
+    flex: 1; /* Take up available space on the left */
+    margin-right: 30px; /* Space between text and image */
+}
+
+.card h3 {
+    margin: 10px 10px;
+    font-size: 22px;
+    color: #333;
+    text-align: left; /* Align title to the left */
+    font-family: 'Arial', sans-serif;
+}
+
+.card p {
+    margin: 5px 10px;
+    font-size: 16px;
+    color: #666;
+    text-align: left; /* Align text to the left */
+    line-height: 1.6; /* Improve text readability */
+    font-family: 'Arial', sans-serif;
+}
+
+/* Logo Container Styling */
+.logo-container {
+    position: absolute;
+    right: 15px; /* Align to the right */
+    top: 50%;
+    transform: translateY(-50%); /* Center vertically */
+    flex-shrink: 0; /* Prevent logo from shrinking */
+    max-width: 100px; /* Increased size for larger logo */
+    height: 100px; /* Set height to maintain the circle shape */
+    border-radius: 100%; /* Ensure the container is circular */
+    overflow: hidden;
+}
+
+/* Store Logo Styling */
+.store-logo {
+    width: 100%; /* Full width inside the logo container */
+    height: 100%; /* Ensure the height matches for a perfect circle */
+    border-radius: 50%; /* Keep rounded corners for a circular shape */
+    border: 2px solid #ddd; /* Add a border around the image */
+    transition: transform 0.3s ease; /* Smooth hover effect */
+}
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+thead {
+    background-color: #00563B;
+    color: white;
+}
+
+th, td {
+    padding: 12px;
+    border: 1px solid #ddd;
+}
+
+/* Specific Column Widths */
+th:nth-child(1), td:nth-child(1) {
+    width: 5%; /* Fixed width for Store ID */
+}
+
+th:nth-child(2), td:nth-child(2) {
+    width: 15%; /* Fixed width for Store Name */
+}
+
+th:nth-child(3), td:nth-child(3) {
+    width: 15%; /* Fixed width for Location */
+}
+
+th:nth-child(4), td:nth-child(4) {
+    width: 50%; /* More space for Description */
+}
+
+th:nth-child(5), td:nth-child(5) {
+    width: 15%; /* Fixed width for Action buttons */
+}
+
+/* Centering Action Buttons */
+.actions {
+    display: flex;
+    justify-content: center; /* Center buttons */
+    gap: 10px; /* Space between buttons */
+    margin-top: 10px; /* Space above buttons */
+}
+
+/* Button Styles */
+.btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    font-weight: bold;
+    min-width: 100px; /* Minimum width for buttons */
+    display: flex; /* Use flexbox to center text */
+    justify-content: center; /* Center text horizontally */
+    align-items: center; /* Center text vertically */
+}
+
+/* Button Background Colors */
+.btn-edit {
+    background-color: #28a745; /* Green */
+}
+
+.btn-delete {
+    background-color: #dc3545; /* Red */
+}
+
+.btn-add {
+    background-color: #00563B; /* Dark Green */
+}
+
+/* Button Hover Effects */
+.btn-edit:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+}
+
+.btn-delete:hover {
+    background-color: #c82333;
+    transform: translateY(-2px);
+}
+
+.btn-add:hover {
+    background-color: #004d30;
+    transform: translateY(-2px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    th, td {
+        padding: 10px;
+        white-space: normal; /* Allow text to wrap */
+    }
+
+    .btn {
+        font-size: 14px;
+        padding: 10px;
+        width: 100%; /* Stack buttons on smaller screens */
+    }
+
+    .actions {
+        flex-direction: column; /* Stack buttons vertically */
+        gap: 10px;
+    }
+
+    /* Card Styles for smaller screens */
+    .card {
+        padding: 10px;
+        flex-direction: column; /* Stack vertically on smaller screens */
+        align-items: flex-start; /* Align items to the left */
+    }
+
+    .card-content {
+        margin-right: 0;
+        margin-bottom: 10px; /* Add space below text */
+    }
+
+    .card h3 {
+        font-size: 16px;
+    }
+
+    .card p {
+        font-size: 12px;
+    }
+
+    .logo-container {
+        max-width: 80px; /* Adjust logo size for smaller screens */
+    }
+}

@@ -1,0 +1,112 @@
+/* Custom Container Styling */
+.container {
+    max-width: 500px; /* Adjusted for better proportion */
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #ffffff; /* White background for contrast */
+    border-radius: 10px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading Styling */
+h2 {
+    font-family: 'Arial', sans-serif;
+    font-size: 24px;
+    color: #00563B; /* Dark Green */
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Logo Preview Styling */
+.logo-preview {
+    display: flex;
+    justify-content: center; /* Center the logo */
+    margin-bottom: 20px; /* Space below logo */
+}
+
+.logo-preview img {
+    max-width: 70px; /* Significantly smaller size for logo */
+    height: 70px; /* Maintain height proportionally */
+    border-radius: 50%; /* Soft edges for logo */
+    border: 2px solid #ddd; /* Optional border for definition */
+}
+
+/* Form Group Styling */
+.form-group {
+    margin-bottom: 20px;
+}
+
+/* Label Styling */
+label {
+    font-family: 'Arial', sans-serif;
+    font-size: 16px;
+    color: #333;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
+}
+
+/* Input and Textarea Styling */
+input[type="text"],
+input[type="file"],
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: 'Arial', sans-serif;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease-in-out;
+}
+
+/* Focus Effect for Input and Textarea */
+input[type="text"]:focus,
+input[type="file"]:focus,
+textarea:focus {
+    border-color: #00563B; /* Dark Green */
+    outline: none;
+}
+
+/* Submit Button Styling */
+.btn-primary {
+    padding: 12px 20px;
+    background-color: #00563B; /* Dark Green */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
+    width: 100%;
+    text-transform: uppercase;
+}
+
+/* Hover Effect for Button */
+.btn-primary:hover {
+    background-color: #004d30; /* Darker Dark Green */
+    transform: translateY(-2px);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
+
+    h2 {
+        font-size: 22px;
+    }
+
+    .btn-primary {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .logo-preview img {
+        max-width: 40px; /* Smaller logo for mobile */
+        height: 40px;
+    }
+}

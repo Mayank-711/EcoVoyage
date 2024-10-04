@@ -1,0 +1,18 @@
+{% extends 'adminapp/base.html' %}
+{% load static %}
+{% block title %}EcoVoyage ADMIN - Delete Store{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/deletestore.css' %}">
+{% endblock %}
+{% block content %}
+<div class="custom-container">
+    <h1>Are you sure you want to delete the store "{{ store.store_name }}"?</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="actions">
+            <button type="submit" class="btn btn-delete">Yes, delete</button>
+            <a href="{% url 'manage_stores' %}" class="btn btn-cancel">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

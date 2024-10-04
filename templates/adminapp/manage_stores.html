@@ -1,0 +1,40 @@
+{% extends "adminapp/base.html" %}
+{% load static %}
+{% block title %}EcoVoyage ADMIN - Manage Stores{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/managestore.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Manage Stores</h2>
+    {% if stores %}
+        {% for store in stores %}
+        <div class="card">
+            <div class="card-content">
+                <div class="text-content">
+                    <h3>{{ store.store_name }}</h3>
+                    <p><strong>Store ID:</strong> {{ store.store_id }}</p>
+                    <p><strong>Location:</strong> {{ store.location }}</p>
+                    <p><strong>Description:</strong> {{ store.description }}</p>
+                    <div class="actions">
+                        <a href="{% url 'edit_store' store.store_id %}" class="btn btn-edit">Edit</a>
+                        <a href="{% url 'delete_store' store.store_id %}" class="btn btn-delete">Delete</a>
+                    </div>
+                </div>
+                <div class="logo-container">
+                    {% if store.logo %}
+                        <img src="{{ store.logo.url }}" alt="Store Logo" class="store-logo">
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p style="text-align: center;">No stores added yet. Please add a new store.</p>
+    {% endif %}
+    <div style="text-align: center;">
+        <a href="{% url 'addstore' %}" class="btn btn-add">Add New Store</a>
+    </div>
+</div>
+{% endblock %}

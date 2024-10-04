@@ -19,6 +19,9 @@ from django.conf import settings
 from adminside.forms import FeedbackForm
 from adminside.models import Feedback
 from django.utils import timezone
+from datetime import datetime
+from django.utils.timezone import now
+from adminside.models import Store
 
 logger = logging.getLogger(__name__)
 
@@ -297,6 +300,7 @@ def mappage(request):
 @login_required(login_url='/login/')
 def logtrip(request):
     user = request.user
+
     if request.method == 'POST':
         # Retrieve form data
         source_add = request.POST.get('source')
@@ -311,11 +315,14 @@ def logtrip(request):
         date = request.POST.get('date')
         log_time = datetime.now().strftime('%H:%M:%S')
 
+        # Debugging form input
+        print(f"[DEBUG] Log Trip Form Data: Source={source_add}, Destination={dest_add}, Mode={mode_of_transport}")
+
         # If the vehicle is electric, adjust the mode of transport
         if is_electric == "yes":
             mode_of_transport = "e" + mode_of_transport
 
-        # Define API parameters
+        # API request setup
         params = {
             'origin': f'{source_lat},{source_lon}',
             'destination': f'{destination_lat},{destination_lon}',
@@ -331,87 +338,106 @@ def logtrip(request):
         # Make the API request
         try:
             response = requests.post('https://api.olamaps.io/routing/v1/directions', params=params)
+
+            # Check if the API request was successful
             if response.status_code == 200:
                 data = response.json()
-                legs = data['routes'][0]['legs']
 
-                # Calculate total distance and duration
-                total_distance = sum(leg['distance'] for leg in legs) / 1000  # Convert to km
-                total_duration_fetched = sum(leg['duration'] for leg in legs) / 60  # Convert to minutes
-                
-                total_distance = round(total_distance, 2)
-                total_duration_fetched = round(total_duration_fetched, 2)
+                # Ensure the 'routes' key exists and has valid data
+                if 'routes' in data and len(data['routes']) > 0:
+                    legs = data['routes'][0]['legs']
 
-                # Calculate carbon footprint
-                list_of_transport = {
-                    "bus": 50,
-                    "ebus": 15,
-                    "train": 41,
-                    "etrain": 14,
-                    "car": 128,
-                    "ecar": 66.67,
-                    "metro": 5,
-                    "bicycle": 0,
-                    "walk": 0,
-                    "bike": 74,
-                    "ebike": 22,
-                    "rickshaw": 51.67,
-                    "erickshaw": 24.33,
-                    "scooter": 55,
-                    "escooter": 22
-                }
+                    total_distance = sum(leg['distance'] for leg in legs) / 1000  # Convert to km
+                    total_duration_fetched = sum(leg['duration'] for leg in legs) / 60  # Convert to minutes
 
-                if mode_of_transport not in list_of_transport:
-                    messages.error(request, 'Invalid mode of transport selected.')
-                    return redirect('logtrip')
+                    total_distance = round(total_distance, 2)
+                    total_duration_fetched = round(total_duration_fetched, 2)
 
-                carbonfootprint = list_of_transport[mode_of_transport] * total_distance
-                print(mode_of_transport, carbonfootprint, sep="\n")
+                    # Calculate carbon footprint
+                    list_of_transport = {
+                        "bus": 50, "ebus": 15, "train": 41, "etrain": 14, 
+                        "car": 128, "ecar": 66.67, "metro": 5, "bicycle": 0, 
+                        "walk": 0, "bike": 74, "ebike": 22, "rickshaw": 51.67, 
+                        "erickshaw": 24.33, "scooter": 55, "escooter": 22
+                    }
 
-                if total_duration_fetched < float(time_taken):
-                    extra_time = float(time_taken) - total_duration_fetched
-                    carbonfootprint_per_min = carbonfootprint / total_duration_fetched
-                    extra_co2 = extra_time * carbonfootprint_per_min
-                    carbonfootprint += extra_co2
+                    if mode_of_transport not in list_of_transport:
+                        messages.error(request, 'Invalid mode of transport selected.')
+                        return redirect('logtrip')
 
-                carbonfootprint = round(carbonfootprint, 2)
+                    carbonfootprint = list_of_transport[mode_of_transport] * total_distance
+                    if total_duration_fetched < float(time_taken):
+                        extra_time = float(time_taken) - total_duration_fetched
+                        carbonfootprint_per_min = carbonfootprint / total_duration_fetched
+                        extra_co2 = extra_time * carbonfootprint_per_min
+                        carbonfootprint += extra_co2
 
-                # Save the trip data to the database
-                TravelLog.objects.create(
-                    user=user,
-                    source_address=source_add,
-                    destination_address=dest_add,
-                    source_latitude=source_lat,
-                    source_longitude=source_lon,
-                    destination_latitude=destination_lat,
-                    destination_longitude=destination_lon,
-                    distance=total_distance,
-                    date=date,
-                    time_taken=time_taken,
-                    time_duration_fetched=str(total_duration_fetched),  # Save fetched duration
-                    is_electric=is_electric == "yes",
-                    mode_of_transport=mode_of_transport,
-                    carbon_footprint=carbonfootprint,
-                    log_time=log_time
-                )
+                    carbonfootprint = round(carbonfootprint, 2)
 
-                messages.success(request, 'Trip logged successfully!')
+                    # Save the trip data to the database
+                    TravelLog.objects.create(
+                        user=user,
+                        source_address=source_add,
+                        destination_address=dest_add,
+                        source_latitude=source_lat,
+                        source_longitude=source_lon,
+                        destination_latitude=destination_lat,
+                        destination_longitude=destination_lon,
+                        distance=total_distance,
+                        date=date,
+                        time_taken=time_taken,
+                        time_duration_fetched=str(total_duration_fetched),  # Save fetched duration
+                        is_electric=is_electric == "yes",
+                        mode_of_transport=mode_of_transport,
+                        carbon_footprint=carbonfootprint,
+                        log_time=log_time
+                    )
+
+                    # Check if this is the first trip of the day
+                    today = timezone.now().date() 
+                    print(f"[DEBUG] Today's Date: {today}")
+
+                    existing_trips = TravelLog.objects.filter(user=user, date=today)
+                    print(f"[DEBUG] Existing trips for today: {[trip.id for trip in existing_trips]}")
+                    if existing_trips.count() == 1:
+                        print("[DEBUG] No previous trips found for today, awarding coins.")
+                        try:
+                            user_profile = UserProfile.objects.get(user=user)
+                            print(f"[DEBUG] Current Coins: {user_profile.coins}")
+                            user_profile.coins += 50 
+                            user_profile.save()
+                            print(f"[DEBUG] New Coins after Award: {user_profile.coins}")
+                            messages.success(request, 'You earned 50 coins for your first trip today!')
+                        except UserProfile.DoesNotExist:
+                            messages.error(request, 'User profile not found. Contact support.')
+                            return redirect('logtrip')
+                    else:
+                        print("[DEBUG] Trip already logged for today.")
+                        messages.success(request, 'Trip logged successfully!')
+
+                else:
+                    messages.error(request, 'Invalid data received from API.')
+                    print(f"[DEBUG] API response error: {data}")
+
             else:
                 messages.error(request, 'Error fetching data from API')
-        except Exception as e:
-            messages.error(request, f'An error occurred: {str(e)}')
+                print(f"[DEBUG] API Request failed with status code: {response.status_code}")
 
-        # Redirect to the logtrip page or another page
+        except Exception as e:
+            messages.error(request, f"An error occurred: {str(e)}")
+            print(f"[DEBUG] Error during API request: {str(e)}")
+
         return redirect('logtrip')
 
-    travellog = TravelLog.objects.filter(user=user).order_by('-date','-log_time')
+    travellog = TravelLog.objects.filter(user=user).order_by('-date', '-log_time')
 
-    # Send data to the frontend
     context = {
         'travellog': travellog,
-        'OLAMAPS_API':OLAMAPS_API
+        'OLAMAPS_API': OLAMAPS_API
     }
     return render(request, 'mainapp/LogTrip.html', context)
+
+
 
 def get_weekly_leaderboard():
     today = datetime.now().date()
@@ -608,8 +634,20 @@ def tips(request):
 
 @login_required(login_url='/login/')
 def redeem(request):
+    user = request.user
+    coin_balance = 0  # Default value if no profile is found
 
-    return render(request,'mainapp/redeem.html')
+    # Retrieve the user's coin balance from the database if available
+    try:
+        user_profile = UserProfile.objects.get(user=user)
+        coin_balance = user_profile.coins  # Fetch user's coin balance
+        print(f"[DEBUG] Retrieved coin balance: {coin_balance} for user: {user.username}")
+    except UserProfile.DoesNotExist:
+        coin_balance = 0  # If user profile does not exist, set to 0
+        print(f"[DEBUG] UserProfile does not exist for user: {user.username}")
+
+    stores = Store.objects.all()  
+    return render(request, 'mainapp/redeem.html', {'coin_balance': coin_balance,'stores': stores})
 
 
 def submit_feedback(request):

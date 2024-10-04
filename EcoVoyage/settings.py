@@ -148,3 +148,7 @@ OLAMAPS = os.getenv("OLAMAPS", default="")
 
 TIME_ZONE = 'Asia/Kolkata'
 USE_TZ = True
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# The URL path for accessing the media files
+MEDIA_URL = '/media/'

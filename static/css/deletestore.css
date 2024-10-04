@@ -1,0 +1,82 @@
+/* Custom Container Styling */
+.custom-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Heading Styling */
+h1 {
+    font-family: 'Arial', sans-serif;
+    font-size: 24px;
+    color: #1f1f1f; /* Dark Green for delete warning */
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Button Container */
+.actions {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* Button Styles */
+.btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    font-weight: bold;
+    min-width: 120px;
+    text-transform: uppercase;
+}
+
+/* Button Colors */
+.btn-cancel {
+    text-decoration: none;
+    background-color: #28a745; /* Light Green */
+}
+
+.btn-delete {
+    background-color: #00563B; /* Dark Green */
+}
+
+/* Button Hover Effects */
+.btn-cancel:hover {
+    background-color: #218838; /* Slightly darker Light Green */
+    transform: translateY(-2px);
+}
+
+.btn-delete:hover {
+    background-color: #004d30; /* Slightly darker Dark Green */
+    transform: translateY(-2px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .custom-container {
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 22px;
+    }
+
+    .btn {
+        font-size: 14px;
+        padding: 10px;
+        width: 100%;
+    }
+
+    .actions {
+        flex-direction: column;
+        gap: 15px;
+    }
+}

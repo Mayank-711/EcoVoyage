@@ -19,6 +19,8 @@ from django.urls import path
 from authapp import views as aviews
 from mainapp import views as mviews
 from adminside import views as kviews
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -58,6 +60,12 @@ adminurl =[
 path('admin_login/', kviews.adminlogin, name='adminlogin'),
 path('view_feedback/', kviews.view_feedback, name='view_feedback'),
 path('add_store/', kviews.add_store, name='addstore'),
-path('admin_logout',kviews.admin_logout,name='adlogout')
+path('admin_logout',kviews.admin_logout,name='adlogout'),
+path('manage-stores/', kviews.manage_stores, name='manage_stores'),
+path('edit-store/<int:store_id>/', kviews.edit_store, name='edit_store'),
+path('delete-store/<int:store_id>/', kviews.delete_store, name='delete_store'),
 ]
 urlpatterns = urlpatterns + authappurl + mainappurl + adminurl
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

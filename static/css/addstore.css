@@ -1,0 +1,121 @@
+/* admin_addstore.css */
+
+/* Container Styling */
+.container {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading Styling */
+h2 {
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    color: #00563B;
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* Label Styling */
+form label {
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+/* Input and Textarea Styling */
+form .form-control {
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 15px;
+    padding-right: 1px;
+    border: 1px solid #ccc;
+    width: 100%;
+    margin-bottom: 15px;
+    transition: border-color 0.3s ease;
+}
+
+form .form-control:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Textarea Styling */
+form textarea.form-control {
+    height: 50px;
+    resize: vertical;
+}
+
+/* File Input */
+form input[type="file"] {
+    border-radius: 5px;
+    padding: 8px;
+    cursor: pointer;
+}
+
+/* Button to Manage Existing Stores */
+.btn-primary {
+    background-color: #00563B;  /* Default Bootstrap secondary color */
+    color: #fff;
+    padding: 10px;
+    font-size: 15px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    width: 48%; /* Adjusted to fit side by side */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Added transform for hover effect */
+    text-decoration: none; /* Remove underline */
+    text-align: center; /* Center the text */
+}
+
+/* Ensuring equal height for buttons */
+.btn-primary {
+    display: flex;
+    justify-content: center; /* Center the text horizontally */
+    align-items: center; /* Center the text vertically */
+}
+
+.btn-primary:hover {
+    background-color: #4CAF50; /* Darker shade for hover effect */
+    transform: translateY(-2px); /* Slight lift effect on hover */
+}
+
+/* Button Container */
+.form-group.d-flex {
+    display: flex;
+    justify-content: space-between; /* Space between buttons */
+}
+
+/* Additional spacing between buttons */
+.form-group.d-flex button {
+    margin-right: 10px; /* Add margin to the right of the first button */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    form .form-control {
+        font-size: 14px;
+    }
+
+    form button[type="submit"], .btn-primary {
+        font-size: 14px; /* Adjust font size for smaller screens */
+        padding: 10px; /* Adjust padding for smaller screens */
+        width: 100%; /* Stack buttons on smaller screens */
+        margin-right: 0; /* Remove right margin on smaller screens */
+    }
+}

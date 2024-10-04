@@ -1,0 +1,242 @@
+/* EcoVoyage Color Theme */
+:root {
+    --primary-color: #00563B;  /* Dark Green */
+    --secondary-color: #E5F6DF;  /* Light Green */
+    --accent-color: #ffffff;  /* White background */
+    --text-color: #333;  /* Text color */
+    --border-color: #ccc;  /* Border for inputs */
+    --hover-color: #27ae60;  /* Darker green on hover */
+}
+
+/* Container for the entire feedback and coin section */
+.feedback-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 30px;
+}
+
+/* Coin Balance Section */
+.coin-balance {
+    background-color: var(--primary-color);
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    text-align: center;
+    color: var(--accent-color);
+    font-size: 20px;
+    width: 60%; /* Increased width for better alignment */
+}
+
+.coin-balance h3 {
+    margin-top: 0;
+    font-size: 22px;
+    color: var(--accent-color);
+}
+
+/* Stores Section */
+.stores-section h4 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+.stores-section {
+    background-color: var(--secondary-color);
+    border-radius: 12px;
+    padding: 20px;
+    height: 400px; /* Set a fixed height to ensure the content fits */
+    overflow-y: auto !important; /* Add !important to enforce this style */
+}
+
+/* Store Cards Wrapper */
+.store-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive grid layout */
+    gap: 20px; /* Adds space between the cards */
+    overflow-y: auto;  /* Enable vertical scrolling */
+    padding-right: 10px; /* Adds padding to avoid content being hidden by scrollbar */
+}
+
+
+/* Store Card */
+.store-card {
+    background-color: var(--accent-color);
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 200px; /* Minimum size for store cards */
+}
+
+
+/* Store Logo Container */
+.store-logo-container {
+    flex-shrink: 0;
+    margin-bottom: 10px;
+}
+
+.store-logo {
+    width: 50px;
+    height: 50px;
+    object-fit: cover; /* Ensure it scales properly */
+    border-radius: 50%;
+}
+
+/* Store Details */
+.store-details {
+    text-align: center; /* Center align text */
+    color: black;
+}
+
+.store-details h4 {
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+.offer-text {
+    color: black;
+    font-weight: normal;
+    margin: 5px 0;
+}
+
+/* Redeem Button */
+.redeem-btn {
+    background-color: var(--primary-color);
+    color: var(--accent-color);
+    border: none;
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+/* Feedback Section */
+.feedback-section {
+    background-color: var(--primary-color);
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* More prominent shadow for depth */
+    padding: 40px;
+    color: var(--accent-color);
+    width: 100%; /* Full width in container */
+    max-width: 400px; /* Limit maximum width */
+    margin: 0 auto; /* Center horizontally */
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* Smooth Hover Animation */
+.feedback-section:hover {
+    transform: scale(1.03); /* Slight zoom effect on hover */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+}
+
+/* Stylish Animated Border */
+.feedback-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(to right, var(--primary-color), var(--hover-color), var(--primary-color));
+    animation: borderMove 5s linear infinite; /* Animate the border */
+}
+
+@keyframes borderMove {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 100% 0%; }
+}
+
+/* Styling for form inputs */
+.feedback-section input[type="text"],
+.feedback-section input[type="email"],
+.feedback-section textarea {
+    width: 100%; /* Full width within the container */
+    padding: 12px;
+    margin: 15px 0;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    font-size: 16px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background: rgba(255, 255, 255, 0.9); /* Soft background */
+    color: var(--primary-color);
+}
+
+.feedback-section input:focus,
+.feedback-section textarea:focus {
+    border-color: var(--hover-color);
+    box-shadow: 0 0 8px rgba(39, 174, 96, 0.4); /* Glowing effect on focus */
+    outline: none;
+}
+
+/* Submit Button Styling */
+.feedback-section button.submit-btn {
+    background-color: var(--hover-color);
+    color: var(--accent-color);
+    border: none;
+    padding: 14px 24px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    width: 100%; /* Full-width button */
+    margin-top: 20px;
+    letter-spacing: 1px;
+    text-transform: uppercase; /* Modern button look */
+}
+
+.feedback-section button.submit-btn:hover {
+    background-color: var(--primary-color);
+    transform: scale(1.1); /* Slight grow on hover */
+    letter-spacing: 1.5px; /* Enhance text spacing on hover */
+}
+
+/* Headers */
+.feedback-section h3 {
+    font-size: 28px; /* Increased size for emphasis */
+    color: var(--accent-color);
+    text-align: center;
+    margin-bottom: 10px;
+    text-transform: uppercase; /* Modern look */
+    letter-spacing: 2px;
+}
+
+.feedback-section p {
+    color: var(--accent-color);
+    font-size: 15px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .feedback-section {
+        padding: 30px;
+        width: 90%;
+    }
+}
+
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .feedback-container {
+        flex-direction: column;  /* Stack the sections vertically on smaller screens */
+    }
+
+    .coin-balance, .feedback-section {
+        width: 100%;  /* Full width on smaller screens */
+    }
+
+    .stores-section {
+        margin-top: 20px;  /* Space above stores section on smaller screens */
+    }
+
+    .store-card {
+        width: 100%; /* Full width for cards on smaller screens */
+    }
+}

@@ -1,0 +1,55 @@
+{% extends "adminapp/base.html" %}
+{% load static %}
+
+{% block title %}EcoVoyage ADMIN - Edit Store{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/editstore.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Edit Store: {{ store.store_name }}</h2>
+
+    <!-- Store Logo -->
+    <div class="logo-preview">
+        {% if store.logo %}
+            <img src="{{ store.logo.url }}" alt="Current Logo">
+        {% else %}
+            <p>No logo uploaded.</p>
+        {% endif %}
+    </div>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <!-- Store Name -->
+        <div class="form-group">
+            <label for="store_name">Store Name:</label>
+            <input type="text" id="store_name" name="store_name" class="form-control" value="{{ store.store_name }}" required>
+        </div>
+
+        <!-- Location -->
+        <div class="form-group">
+            <label for="location">Location:</label>
+            <input type="text" id="location" name="location" class="form-control" value="{{ store.location }}" required>
+        </div>
+
+        <!-- Store Description -->
+        <div class="form-group">
+            <label for="description">Store Description:</label>
+            <textarea id="description" name="description" class="form-control" required>{{ store.description }}</textarea>
+        </div>
+
+        <!-- Store Logo Upload -->
+        <div class="form-group">
+            <label for="logo">Upload New Logo:</label>
+            <input type="file" id="logo" name="logo" class="form-control">
+        </div>
+
+        <!-- Submit Button -->
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Update Store</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

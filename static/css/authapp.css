@@ -118,8 +118,8 @@ a {
 }
 
 a:hover {
-    text-decoration: underline;
-    color: #4CAF50;
+    text-decoration: none;
+    color: #fff;
 }
 
 .links {
@@ -146,8 +146,8 @@ a:hover {
 }
 
 .admin-login-button {
-    background-color: #E5F6DF; /* Adjust color as needed */
-    color: forestgreen;
+    background-color: #00563B; /* Adjust color as needed */
+    color: #fff;
     padding: 8px 12px;
     border-radius: 5px;
     text-decoration: none;
