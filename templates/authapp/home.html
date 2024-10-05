@@ -25,7 +25,7 @@
 
         /* Body and Global Styling */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Rubik', sans-serif; /* Set Rubik as the default font */
             margin: 0;
             padding: 0;
             background-color: var(--green-light);
@@ -98,13 +98,6 @@
             margin-top: 10px;
         }
 
-        /* Sub-Text Styling */
-        .sub-text {
-            font-size: 2rem;
-            color: var(--green-light);
-            margin-top: 10px;
-        }
-
         /* Button Styling */
         .app-button {
             position: absolute;
@@ -137,32 +130,32 @@
         .section h1 {
             color: var(--green-primary);
             margin-bottom: 20px;
-            font-size: 2.5rem; /* Font size for the main header */
-            font-weight: bold; /* Bold font weight */
-            text-align: center; /* Center align the header */
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-align: center;
         }
 
         /* Eco-Friendly Importance Section Paragraph Styling */
         .section p {
-            color: #555; /* Darker text color for contrast */
-            font-size: 1.2rem; /* Slightly larger font size for readability */
-            line-height: 1.6; /* Increased line height for better spacing */
-            max-width: 800px; /* Max width for paragraph */
-            margin: 0 auto; /* Center the paragraph */
-            padding: 0 20px; /* Padding for left and right */
+            color: #555;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
 
         /* Cards */
         .card {
             background-color: var(--card-bg);
             border: 2px solid var(--card-border);
-            border-radius: 20px; /* Increased curvature */
+            border-radius: 20px;
             transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
-            overflow: hidden; /* Ensures the image corners are curved */
-            text-align: center; /* Align text to the center */
+            overflow: hidden;
+            text-align: center;
             margin: 20px 0;
-            margin-right: 30px; /* Margin between cards */
-            animation: fadeInFromRight 0.5s forwards; /* Apply animation */
+            margin-right: 30px;
+            animation: fadeInFromRight 0.5s forwards;
         }
 
         .card:hover {
@@ -172,26 +165,26 @@
         }
 
         .card img {
-            height: 250px; /* Increased image height */
-            width: 100%; /* Ensure image fills the card width */
+            height: 250px;
+            width: 100%;
             object-fit: cover;
-            border-top-left-radius: 20px; /* Match card radius */
-            border-top-right-radius: 20px; /* Match card radius */
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
         }
 
         .card h5 {
             color: var(--green-primary);
             font-weight: bold;
-            margin-bottom: 15px; /* Added space between heading and content */
+            margin-bottom: 15px;
         }
 
         .card p {
-            color: #555;
+            color: #35495e;
             font-size: 1.1rem;
         }
 
         .row {
-            justify-content: center; /* Center the cards */
+            justify-content: center;
         }
 
         @keyframes fadeInFromRight {
@@ -212,47 +205,72 @@
             text-align: center;
             padding: 15px;
         }
+
+        /* About Us Section Styling */
         .about-us {
             display: flex;
-            /* align-items: center;
-            justify-content: center; */
             margin-top: 60px;
-            height:600px;
+            height: 600px;
         }
+
         .logo-circle {
-            width: 300px;
-            height: 300px;
+            width: 1800px;
+            height: 400px;
             border-radius: 50%;
             overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: var(--green-accent);
-            margin-right: 40px;
-            background-color: white;
-            margin-left: 50px;
-            margin-bottom: 50px;
-            margin-top: 200px;
+            background: none;
         }
 
         .logo-circle img {
             width: 100%;
-            height: auto;
+            height: 100%;
+            object-fit: contain;
             mix-blend-mode: multiply;
+        }
+        .logo {
+            /* Border stuff to make the outline */
+            border-left: 50px solid transparent;
+            border-right: 50px solid transparent;
+            border-radius: 40px / 100px;
+            
+            /* Sizing to make the hourglass display nicely */
+            height: 0px;
+            width: 10px;
+            
+            /* Uncomment next 2 lines for spin animation */
+            animation: spin 1.25s infinite linear;
+            margin: 25px;
+            }
+
+            @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            20% {
+                transform: rotate(10deg);
+            }
+            40% {
+                transform: rotate(-20deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         .about-text {
+            margin-left: 100px;
+            margin-right: 70px;
             text-align: left;
         }
 
         .about-text h3 {
             color: var(--green-primary);
-            font-size: 2rem; /* Increased size */
+            font-size: 4rem;
         }
 
         .about-text p {
-            color: #555;
-            font-size: 1.2rem; /* Increased size for better readability */
+            color: #35495e;
+            font-size: 1.8rem;
         }
     </style>
 </head>
@@ -331,13 +349,20 @@
 
     <div class="about-us" id="about">
         <div class="logo-circle">
-            <img src="{% static 'images/logo.png' %}" alt="EcoVoyage Logo">
+            <img src="{% static 'images/logo.png' %}" alt="EcoVoyage Logo" class="logo">
         </div>
         <div class="about-text">
             <h3>About Us</h3>
-            <p>EcoVoyage is dedicated to promoting sustainable travel options.<br>
-                We provide users with tools and information to make eco-conscious choices.<br>
-                Minimizing their environmental impact while enjoying their journeys.</p>
+            <p>
+            At EcoVoyage, our mission is to help you travel smarter while reducing your carbon footprint.
+            We believe that sustainable travel starts with informed choices, and we’re here to provide the tools you need.
+            From tracking your trips to calculating emissions and offering eco-friendly routes,
+            EcoVoyage makes it easy to choose greener alternatives.<br>
+            
+            We’re not just a platform, but a community of eco-conscious travelers.
+            Together, we can make a meaningful impact on the planet, one trip at a time.
+            Join us and be part of the change for a more sustainable future.
+            </p>
         </div>
     </div>
 
