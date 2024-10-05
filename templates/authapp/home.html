@@ -199,12 +199,7 @@
         }
 
         /* Footer Styling */
-        .footer {
-            background-color: var(--green-primary);
-            color: var(--text-color);
-            text-align: center;
-            padding: 15px;
-        }
+        /* Footer Styling */
 
         /* About Us Section Styling */
         .about-us {
@@ -272,6 +267,61 @@
             color: #35495e;
             font-size: 1.8rem;
         }
+        .about-section {
+    position: relative;
+    padding: 60px 0;
+    color: #fff;
+    background-image: url('{% static "images/l1.jpeg" %}'); /* Change this to your background image */
+    background-size:cover;
+    background-position: center;
+    text-align: center;
+    height: 725px;
+}
+
+.about-content {
+    margin-bottom: 40px;
+}
+
+.about-content h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.about-content p {
+    font-size: 1.5rem;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.8); /* White background with some transparency */
+    border: none; /* Remove border */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow */
+    margin-bottom: 20px; /* Add some space between cards */
+}
+
+.carousel-control-prev, .carousel-control-next {
+    filter: invert(1); /* Make arrows visible by inverting colors */
+}
+
+.carousel-control-prev-icon, .carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.5); /* Optional: Add background for arrows */
+    border-radius: 50%; /* Make background circular */
+}
+.footer {
+    position: absolute; /* Change to absolute positioning */
+    padding: 15px; /* Padding for some space */
+    color: var(--text-color); /* Text color */
+    text-align: center;
+    z-index: 5; /* Make sure it is above other elements */
+    background-color: #00563B;
+    opacity: 70%;
+    width: 100%;
+    margin-top:100px ; /* Make background transparent */
+}
+
     </style>
 </head>
 
@@ -365,11 +415,89 @@
             </p>
         </div>
     </div>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <p>&copy; 2024 EcoVoyage. All rights reserved.</p>
-    </footer>
+    <section id="app" class="about-section">
+        <div class="about-content">
+            <h1>About Our Website</h1>
+            <p>EcoVoyage is a platform designed to promote eco-friendly travel options. Our mission is to help users make sustainable travel choices while tracking their carbon footprint.</p>
+        </div>
+        <div id="featureCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Trip Planner</h5>
+                                    <p class="card-text">Discover eco-friendly transportation options for your trips.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">CarbonFootprint Calculator</h5>
+                                    <p class="card-text">Log your trips and calculate your carbon footprint.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Redeem Rewards</h5>
+                                    <p class="card-text">Earn rewards for eco-friendly travel and make a difference.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Compare Your Past Records</h5>
+                                    <p class="card-text">Compare eco-friendly transport options to find the best choice.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Personalised Tips</h5>
+                                    <p class="card-text">Access tips and resources for sustainable travel.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Connect With Friends</h5>
+                                    <p class="card-text">Join a community of like-minded travelers making a difference.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#featureCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#featureCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+            <div class="about-content">
+                <p>Join Us in Saving the World!</p>
+                <p>Every Step Matters!!</p>
+                <div class="footer"><p>&copy; 2024 EcoVoyage. All rights reserved.</p></div>
+                
+            </div>
+            
+        </div>
+    </section>
+        
+    
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
