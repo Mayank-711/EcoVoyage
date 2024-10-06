@@ -593,7 +593,7 @@ def get_eco_friendly_recommendations(travel_logs):
     # Use LLM to generate polished content
     final_recommendations = []
     for rec in raw_recommendations:
-        response = model.generate_content(f"Provide detailed eco-friendly travel advice: {rec}")
+        response = model.generate_content(f"Provide detailed eco-friendly travel advice and i want to show this in html so make it in that structure using bold,br ,li: {rec}")
         final_recommendations.append(response.text)
     
     return final_recommendations
@@ -620,12 +620,12 @@ def get_personalized_recommendations(request):
     recommendations = get_eco_friendly_recommendations(travel_logs_list)
     
     # Beautify recommendations
-    beautified = []
-    for rec in recommendations:
-        rec = rec.replace("*", "<strong>").replace("\n", "</strong><br>").replace("</strong><br><strong>", "<br><strong>")
-        beautified.append(rec)
+    # beautified = []
+    # for rec in recommendations:
+    #     rec = rec.replace("*", "<strong>").replace("\n", "</strong><br>").replace("</strong><br><strong>", "<br><strong>")
+    #     beautified.append(rec)
     
-    return JsonResponse({'recommendations': beautified})
+    return JsonResponse({'recommendations': recommendations})
 
 def tips(request):
     return render(request,'mainapp/tips.html')
