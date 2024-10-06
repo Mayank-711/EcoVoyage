@@ -593,7 +593,7 @@ def get_eco_friendly_recommendations(travel_logs):
     # Use LLM to generate polished content
     final_recommendations = []
     for rec in raw_recommendations:
-        response = model.generate_content(f"Provide detailed eco-friendly travel advice and i want to show this in html so make it in that structure using bold,br ,li: {rec}")
+        response = model.generate_content(f"Provide detailed eco-friendly travel advice and i want to show this in html so make it in that structure using bold,br: {rec}")
         final_recommendations.append(response.text)
     
     return final_recommendations
