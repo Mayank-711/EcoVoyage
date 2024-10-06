@@ -1,0 +1,308 @@
+:root {
+    --green-primary: #00563B;
+    --green-light: #E5F6DF;
+    --green-accent: #27AE60;
+    --text-color: #E5F6DF;
+    --highlight-text: #FAFAFA;
+    --card-bg: #FFFFFF;
+    --card-border: #A9DFBF;
+}
+
+/* Body and Global Styling */
+body {
+    font-family: 'Rubik', sans-serif; /* Set Rubik as the default font */
+    margin: 0;
+    padding: 0;
+    background-color: var(--green-light);
+    color: #333;
+}
+
+/* Transparent Navbar Styling */
+.navbar {
+    background-color: transparent;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 10;
+}
+
+.navbar-brand {
+    color: var(--text-color);
+    font-size: 3rem;
+    font-weight: bolder;
+    margin-left: 40px;
+}
+
+.navbar-nav .nav-link {
+    color: var(--text-color);
+    font-weight: 600;
+    font-size: 1.5rem;
+    margin-right: 20px;
+    transition: color 0.3s ease;
+    text-decoration: none;
+}
+
+.navbar-nav .nav-link:hover {
+    color: var(--green-accent);
+}
+
+/* Video Section Styling */
+.video-container {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.video-container video {
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+}
+
+/* Text Above Video */
+.overlay-text {
+    position: absolute;
+    top: calc(30% + 50px);
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--highlight-text);
+    font-size: 3.8rem;
+    text-align: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    max-width: 1500px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* New Subtext Styling */
+.welcome-text {
+    font-size: 2.5rem;
+    color: var(--highlight-text);
+    text-align: center;
+    margin-top: 10px;
+}
+
+/* Button Styling */
+.app-button {
+    position: absolute;
+    top: calc(50% + 50px);
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--green-accent);
+    color: var(--highlight-text);
+    font-size: 1.5rem;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    text-align: center;
+}
+
+.app-button:hover {
+    background-color: var(--green-primary);
+}
+
+/* Main Content Styling */
+.section {
+    padding: 60px;
+    background-color: #F5F5F5;
+    text-align: center;
+}
+
+/* Eco-Friendly Importance Section Header Styling */
+.section h1 {
+    color: var(--green-primary);
+    margin-bottom: 20px;
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Eco-Friendly Importance Section Paragraph Styling */
+.section p {
+    color: #555;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Cards */
+.card {
+    background-color: var(--card-bg);
+    border: 2px solid var(--card-border);
+    border-radius: 20px;
+    transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+    overflow: hidden;
+    text-align: center;
+    margin: 20px 0;
+    margin-right: 30px;
+    animation: fadeInFromRight 0.5s forwards;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    background-color: var(--green-accent);
+}
+
+.card img {
+    height: 250px;
+    width: 100%;
+    object-fit: cover;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.card h5 {
+    color: var(--green-primary);
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.card p {
+    color: #35495e;
+    font-size: 1.1rem;
+}
+
+.row {
+    justify-content: center;
+}
+
+@keyframes fadeInFromRight {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Footer Styling */
+/* Footer Styling */
+
+/* About Us Section Styling */
+.about-us {
+    display: flex;
+    margin-top: 60px;
+    height: 725px;
+}
+
+.logo-circle {
+    width: 1800px;
+    height: 400px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: none;
+}
+
+.logo-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+}
+.logo {
+    /* Border stuff to make the outline */
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-radius: 40px / 100px;
+    
+    /* Sizing to make the hourglass display nicely */
+    height: 0px;
+    width: 10px;
+    
+    /* Uncomment next 2 lines for spin animation */
+    animation: spin 1.25s infinite linear;
+    margin: 25px;
+    }
+
+    @keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    20% {
+        transform: rotate(10deg);
+    }
+    40% {
+        transform: rotate(-20deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.about-text {
+    margin-left: 100px;
+    margin-right: 70px;
+    text-align: left;
+}
+
+.about-text h3 {
+    color: var(--green-primary);
+    font-size: 4rem;
+}
+
+.about-text p {
+    color: #35495e;
+    font-size: 1.8rem;
+}
+.about-section {
+position: relative;
+padding: 60px 0;
+color: #fff;
+/* Change this to your background image */
+background-size:cover;
+background-position: center;
+text-align: center;
+height: 725px;
+}
+
+.about-content {
+margin-bottom: 40px;
+}
+
+.about-content h1 {
+font-size: 3rem;
+font-weight: bold;
+margin-bottom: 20px;
+}
+
+.about-content p {
+font-size: 1.5rem;
+max-width: 700px;
+margin: 0 auto;
+padding: 0 20px;
+}
+
+.card {
+background: rgba(255, 255, 255, 0.8); /* White background with some transparency */
+border: none; /* Remove border */
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow */
+margin-bottom: 20px; /* Add some space between cards */
+}
+
+.carousel-control-prev, .carousel-control-next {
+filter: invert(1); /* Make arrows visible by inverting colors */
+}
+
+.carousel-control-prev-icon, .carousel-control-next-icon {
+background-color: rgba(0, 0, 0, 0.5); /* Optional: Add background for arrows */
+border-radius: 50%; /* Make background circular */
+}
+.footer {
+position: absolute; /* Change to absolute positioning */
+padding: 15px; /* Padding for some space */
+color: var(--text-color); /* Text color */
+text-align: center;
+z-index: 5; /* Make sure it is above other elements */
+background-color: #00563B;
+opacity: 70%;
+width: 100%;
+margin-top:100px ; /* Make background transparent */
+}
