@@ -28,10 +28,7 @@ logger = logging.getLogger(__name__)
 API_KEY_GEMINI =settings.GEMINI
 OLAMAPS_API = settings.OLAMAPS
 
-# Set the API key as an environment variable
-os.environ["API_KEY"] = API_KEY_GEMINI
-genai.configure(api_key=os.environ["API_KEY"])
-model = genai.GenerativeModel("gemini-1.5-flash")
+
 
 @csrf_exempt
 @login_required(login_url='/login/')
@@ -545,7 +542,10 @@ def leaderboards(request):
 
 # Example Usage
 
-
+# Set the API key as an environment variable
+os.environ["API_KEY"] = API_KEY_GEMINI
+genai.configure(api_key=os.environ["API_KEY"])
+model = genai.GenerativeModel("gemini-1.5-flash")
 
 
 def analyze_travel_logs(travel_logs):
@@ -619,11 +619,6 @@ def get_personalized_recommendations(request):
     # Process travel logs
     recommendations = get_eco_friendly_recommendations(travel_logs_list)
     
-    # Beautify recommendations
-    # beautified = []
-    # for rec in recommendations:
-    #     rec = rec.replace("*", "<strong>").replace("\n", "</strong><br>").replace("</strong><br><strong>", "<br><strong>")
-    #     beautified.append(rec)
     
     return JsonResponse({'recommendations': recommendations})
 
@@ -635,9 +630,7 @@ def tips(request):
 @login_required(login_url='/login/')
 def redeem(request):
     user = request.user
-    coin_balance = 0  # Default value if no profile is found
-
-    # Retrieve the user's coin balance from the database if available
+    coin_balance = 0  
     try:
         user_profile = UserProfile.objects.get(user=user)
         coin_balance = user_profile.coins  # Fetch user's coin balance
@@ -655,7 +648,6 @@ def submit_feedback(request):
         form = FeedbackForm(request.POST)
         if form.is_valid():
             feedback = form.save(commit=False)
-            # Use the logged-in user's username or user object (if linking through a ForeignKey)
             feedback.name = request.user  # Assuming the Feedback model has a ForeignKey to User
             feedback.submitted_at = timezone.now()  # Save current UTC time
             feedback.save()
